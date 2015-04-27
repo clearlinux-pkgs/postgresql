@@ -1,0 +1,2 @@
+--without-readline --enable-tap-tests
+
