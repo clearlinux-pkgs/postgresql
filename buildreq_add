@@ -7,3 +7,4 @@ openjade-dev
 libxslt-bin
 openssl-dev
 python-dev
+perl(IPC::Run)

@@ -4,7 +4,7 @@
 #
 Name     : postgresql
 Version  : 9.4.5
-Release  : 12
+Release  : 13
 URL      : https://ftp.postgresql.org/pub/source/v9.4.5/postgresql-9.4.5.tar.bz2
 Source0  : https://ftp.postgresql.org/pub/source/v9.4.5/postgresql-9.4.5.tar.bz2
 Summary  : No detailed summary available
@@ -67,6 +67,11 @@ lib components for the postgresql package.
 %setup -q -n postgresql-9.4.5
 
 %build
+export AR=gcc-ar
+export RANLIB=gcc-ranlib
+export NM=gcc-nm
+export CFLAGS="$CFLAGS -flto -fno-semantic-interposition -falign-functions=32 -O3 "
+export CXXFLAGS="$CXXFLAGS -flto -fno-semantic-interposition -falign-functions=32 -O3 "
 %configure --disable-static --without-readline --enable-tap-tests
 make V=1  %{?_smp_mflags}
 
