@@ -4,7 +4,7 @@
 #
 Name     : postgresql
 Version  : 9.5.2
-Release  : 17
+Release  : 18
 URL      : https://ftp.postgresql.org/pub/source/v9.5.2/postgresql-9.5.2.tar.bz2
 Source0  : https://ftp.postgresql.org/pub/source/v9.5.2/postgresql-9.5.2.tar.bz2
 Summary  : No detailed summary available
