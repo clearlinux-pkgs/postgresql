@@ -4,7 +4,7 @@
 #
 Name     : postgresql
 Version  : 9.5.4
-Release  : 20
+Release  : 21
 URL      : https://ftp.postgresql.org/pub/source/v9.5.4/postgresql-9.5.4.tar.bz2
 Source0  : https://ftp.postgresql.org/pub/source/v9.5.4/postgresql-9.5.4.tar.bz2
 Summary  : No detailed summary available
