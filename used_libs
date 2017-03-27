@@ -3,4 +3,5 @@ libdl.so.2
 libm.so.6
 libpthread.so.0
 librt.so.1
+libsystemd.so.0
 libz.so.1

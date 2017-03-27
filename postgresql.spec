@@ -4,13 +4,16 @@
 #
 Name     : postgresql
 Version  : 9.6.1
-Release  : 24
+Release  : 25
 URL      : https://ftp.postgresql.org/pub/source/v9.6.1/postgresql-9.6.1.tar.bz2
 Source0  : https://ftp.postgresql.org/pub/source/v9.6.1/postgresql-9.6.1.tar.bz2
+Source1  : postgresql-install.service
+Source2  : postgresql.service
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : PostgreSQL TCL
 Requires: postgresql-bin
+Requires: postgresql-config
 Requires: postgresql-lib
 Requires: postgresql-data
 BuildRequires : bison
@@ -21,6 +24,7 @@ BuildRequires : openjade-dev
 BuildRequires : openssl-dev
 BuildRequires : perl(IPC::Run)
 BuildRequires : python-dev
+BuildRequires : systemd-dev
 BuildRequires : zlib-dev
 
 %description
@@ -30,9 +34,18 @@ BuildRequires : zlib-dev
 Summary: bin components for the postgresql package.
 Group: Binaries
 Requires: postgresql-data
+Requires: postgresql-config
 
 %description bin
 bin components for the postgresql package.
+
+
+%package config
+Summary: config components for the postgresql package.
+Group: Default
+
+%description config
+config components for the postgresql package.
 
 
 %package data
@@ -59,6 +72,7 @@ dev components for the postgresql package.
 Summary: lib components for the postgresql package.
 Group: Libraries
 Requires: postgresql-data
+Requires: postgresql-config
 
 %description lib
 lib components for the postgresql package.
@@ -69,16 +83,21 @@ lib components for the postgresql package.
 
 %build
 export LANG=C
+export SOURCE_DATE_EPOCH=1490635289
 export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
 export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
 export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
 export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
-%configure --disable-static --without-readline --enable-tap-tests
+%configure --disable-static --without-readline --enable-tap-tests --with-systemd
 make V=1  %{?_smp_mflags}
 
 %install
+export SOURCE_DATE_EPOCH=1490635289
 rm -rf %{buildroot}
 %make_install
+mkdir -p %{buildroot}/usr/lib/systemd/system
+install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/systemd/system/postgresql-install.service
+install -m 0644 %{SOURCE2} %{buildroot}/usr/lib/systemd/system/postgresql.service
 
 %files
 %defattr(-,root,root,-)
@@ -129,6 +148,11 @@ rm -rf %{buildroot}
 /usr/bin/psql
 /usr/bin/reindexdb
 /usr/bin/vacuumdb
+
+%files config
+%defattr(-,root,root,-)
+/usr/lib/systemd/system/postgresql-install.service
+/usr/lib/systemd/system/postgresql.service
 
 %files data
 %defattr(-,root,root,-)
@@ -1395,12 +1419,25 @@ rm -rf %{buildroot}
 /usr/include/postgresql/server/utils/varbit.h
 /usr/include/postgresql/server/utils/xml.h
 /usr/include/postgresql/server/windowapi.h
-/usr/lib64/*.so
-/usr/lib64/pkgconfig/*.pc
+/usr/lib64/libecpg.so
+/usr/lib64/libecpg_compat.so
+/usr/lib64/libpgtypes.so
+/usr/lib64/libpq.so
+/usr/lib64/pkgconfig/libecpg.pc
+/usr/lib64/pkgconfig/libecpg_compat.pc
+/usr/lib64/pkgconfig/libpgtypes.pc
+/usr/lib64/pkgconfig/libpq.pc
 
 %files lib
 %defattr(-,root,root,-)
-/usr/lib64/*.so.*
+/usr/lib64/libecpg.so.6
+/usr/lib64/libecpg.so.6.8
+/usr/lib64/libecpg_compat.so.3
+/usr/lib64/libecpg_compat.so.3.8
+/usr/lib64/libpgtypes.so.3
+/usr/lib64/libpgtypes.so.3.7
+/usr/lib64/libpq.so.5
+/usr/lib64/libpq.so.5.9
 /usr/lib64/postgresql/ascii_and_mic.so
 /usr/lib64/postgresql/cyrillic_and_mic.so
 /usr/lib64/postgresql/dict_snowball.so
