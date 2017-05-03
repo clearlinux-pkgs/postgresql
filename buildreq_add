@@ -9,3 +9,4 @@ openssl-dev
 python-dev
 perl(IPC::Run)
 systemd-dev
+ncurses-dev

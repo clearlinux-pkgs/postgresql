@@ -1,2 +1,2 @@
---without-readline --enable-tap-tests --with-systemd
-
+--enable-tap-tests
+--with-systemd

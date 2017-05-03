@@ -4,7 +4,7 @@
 #
 Name     : postgresql
 Version  : 9.6.2
-Release  : 27
+Release  : 28
 URL      : https://ftp.postgresql.org/pub/source/v9.6.2/postgresql-9.6.2.tar.bz2
 Source0  : https://ftp.postgresql.org/pub/source/v9.6.2/postgresql-9.6.2.tar.bz2
 Source1  : postgresql-install.service
@@ -20,10 +20,12 @@ BuildRequires : bison
 BuildRequires : flex
 BuildRequires : libxml2-dev
 BuildRequires : libxslt-bin
+BuildRequires : ncurses-dev
 BuildRequires : openjade-dev
 BuildRequires : openssl-dev
 BuildRequires : perl(IPC::Run)
 BuildRequires : python-dev
+BuildRequires : readline-dev
 BuildRequires : systemd-dev
 BuildRequires : zlib-dev
 
@@ -82,17 +84,21 @@ lib components for the postgresql package.
 %setup -q -n postgresql-9.6.2
 
 %build
+export http_proxy=http://127.0.0.1:9/
+export https_proxy=http://127.0.0.1:9/
+export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1492441093
+export SOURCE_DATE_EPOCH=1493772476
 export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
 export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
 export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
 export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
-%configure --disable-static --without-readline --enable-tap-tests --with-systemd
+%configure --disable-static --enable-tap-tests \
+--with-systemd
 make V=1  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1492441093
+export SOURCE_DATE_EPOCH=1493772476
 rm -rf %{buildroot}
 %make_install
 mkdir -p %{buildroot}/usr/lib/systemd/system

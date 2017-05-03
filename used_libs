@@ -2,6 +2,8 @@ libc.so.6
 libdl.so.2
 libm.so.6
 libpthread.so.0
+libreadline.so.7
 librt.so.1
 libsystemd.so.0
+libtinfow.so.6
 libz.so.1
