@@ -4,7 +4,7 @@
 #
 Name     : postgresql
 Version  : 9.6.3
-Release  : 29
+Release  : 30
 URL      : https://ftp.postgresql.org/pub/source/v9.6.3/postgresql-9.6.3.tar.bz2
 Source0  : https://ftp.postgresql.org/pub/source/v9.6.3/postgresql-9.6.3.tar.bz2
 Source1  : postgresql-install.service
@@ -88,17 +88,20 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1494519699
-export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
-export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
-export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
-export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fno-semantic-interposition "
+export SOURCE_DATE_EPOCH=1498923033
+export AR=gcc-ar
+export RANLIB=gcc-ranlib
+export NM=gcc-nm
+export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto -fno-semantic-interposition "
+export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto -fno-semantic-interposition "
+export FFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto -fno-semantic-interposition "
+export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto -fno-semantic-interposition "
 %configure --disable-static --enable-tap-tests \
 --with-systemd
 make V=1  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1494519699
+export SOURCE_DATE_EPOCH=1498923033
 rm -rf %{buildroot}
 %make_install
 mkdir -p %{buildroot}/usr/lib/systemd/system
