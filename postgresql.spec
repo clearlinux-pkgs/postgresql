@@ -4,7 +4,7 @@
 #
 Name     : postgresql
 Version  : 9.6.5
-Release  : 33
+Release  : 34
 URL      : https://ftp.postgresql.org/pub/source/v9.6.5/postgresql-9.6.5.tar.bz2
 Source0  : https://ftp.postgresql.org/pub/source/v9.6.5/postgresql-9.6.5.tar.bz2
 Source1  : postgresql-install.service
@@ -77,7 +77,6 @@ dev components for the postgresql package.
 Summary: lib components for the postgresql package.
 Group: Libraries
 Requires: postgresql-data
-Requires: postgresql-config
 
 %description lib
 lib components for the postgresql package.
@@ -91,20 +90,20 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1504314346
+export SOURCE_DATE_EPOCH=1512600882
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-semantic-interposition "
-export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-semantic-interposition "
-export FFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-semantic-interposition "
-export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-semantic-interposition "
+export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
+export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
+export FFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
+export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
 %configure --disable-static --enable-tap-tests \
 --with-systemd
 make V=1  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1504314346
+export SOURCE_DATE_EPOCH=1512600882
 rm -rf %{buildroot}
 %make_install
 mkdir -p %{buildroot}/usr/lib/systemd/system
