@@ -1,0 +1,29 @@
+From 70786333de7cdd09ac8ae14a5f6d693ed193567c Mon Sep 17 00:00:00 2001
+From: "Brett T. Warden" <brett.t.warden@intel.com>
+Date: Thu, 7 Dec 2017 16:32:17 -0800
+Subject: [PATCH] Move socket to /run/postgresql
+
+By default, the UNIX domain socket for postgresql is created in /tmp.
+This fits more appropriately under /run/postgresql.
+
+Signed-off-by: Brett T. Warden <brett.t.warden@intel.com>
+---
+ src/include/pg_config_manual.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/include/pg_config_manual.h b/src/include/pg_config_manual.h
+index 96885bb..8cee64e 100644
+--- a/src/include/pg_config_manual.h
++++ b/src/include/pg_config_manual.h
+@@ -182,7 +182,7 @@
+  * here's where to twiddle it.  You can also override this at runtime
+  * with the postmaster's -k switch.
+  */
+-#define DEFAULT_PGSOCKET_DIR  "/tmp"
++#define DEFAULT_PGSOCKET_DIR  "/run/postgresql"
+ 
+ /*
+  * This is the default event source for Windows event log.
+-- 
+2.15.1
+

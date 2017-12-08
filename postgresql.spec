@@ -4,11 +4,12 @@
 #
 Name     : postgresql
 Version  : 9.6.5
-Release  : 34
+Release  : 35
 URL      : https://ftp.postgresql.org/pub/source/v9.6.5/postgresql-9.6.5.tar.bz2
 Source0  : https://ftp.postgresql.org/pub/source/v9.6.5/postgresql-9.6.5.tar.bz2
 Source1  : postgresql-install.service
 Source2  : postgresql.service
+Source3  : postgresql.tmpfiles
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : PostgreSQL TCL
@@ -28,6 +29,7 @@ BuildRequires : python-dev
 BuildRequires : readline-dev
 BuildRequires : systemd-dev
 BuildRequires : zlib-dev
+Patch1: 0001-Move-socket-to-run-postgresql.patch
 
 %description
 PostgreSQL Database Management System
@@ -84,13 +86,14 @@ lib components for the postgresql package.
 
 %prep
 %setup -q -n postgresql-9.6.5
+%patch1 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1512600882
+export SOURCE_DATE_EPOCH=1512693753
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -103,12 +106,14 @@ export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -f
 make V=1  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1512600882
+export SOURCE_DATE_EPOCH=1512693753
 rm -rf %{buildroot}
 %make_install
 mkdir -p %{buildroot}/usr/lib/systemd/system
 install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/systemd/system/postgresql-install.service
 install -m 0644 %{SOURCE2} %{buildroot}/usr/lib/systemd/system/postgresql.service
+mkdir -p %{buildroot}/usr/lib/tmpfiles.d
+install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/postgresql.conf
 
 %files
 %defattr(-,root,root,-)
@@ -164,6 +169,7 @@ install -m 0644 %{SOURCE2} %{buildroot}/usr/lib/systemd/system/postgresql.servic
 %defattr(-,root,root,-)
 /usr/lib/systemd/system/postgresql-install.service
 /usr/lib/systemd/system/postgresql.service
+/usr/lib/tmpfiles.d/postgresql.conf
 
 %files data
 %defattr(-,root,root,-)
