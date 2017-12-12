@@ -4,7 +4,7 @@
 #
 Name     : postgresql
 Version  : 9.6.6
-Release  : 37
+Release  : 38
 URL      : https://ftp.postgresql.org/pub/source/v9.6.6/postgresql-9.6.6.tar.bz2
 Source0  : https://ftp.postgresql.org/pub/source/v9.6.6/postgresql-9.6.6.tar.bz2
 Source1  : postgresql-install.service
@@ -30,6 +30,7 @@ BuildRequires : readline-dev
 BuildRequires : systemd-dev
 BuildRequires : zlib-dev
 Patch1: 0001-Move-socket-to-run-postgresql.patch
+Patch2: cve-2017-12172.nopatch
 
 %description
 PostgreSQL Database Management System
@@ -93,20 +94,20 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1513082989
+export SOURCE_DATE_EPOCH=1513084518
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-export FFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
-export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
+export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong "
+export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong "
+export FFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong "
+export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong "
 %configure --disable-static --enable-tap-tests \
 --with-systemd
 make V=1  %{?_smp_mflags}
 
 %install
-export SOURCE_DATE_EPOCH=1513082989
+export SOURCE_DATE_EPOCH=1513084518
 rm -rf %{buildroot}
 %make_install
 mkdir -p %{buildroot}/usr/lib/systemd/system
