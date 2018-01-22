@@ -4,7 +4,7 @@
 #
 Name     : postgresql
 Version  : 9.6.6
-Release  : 38
+Release  : 39
 URL      : https://ftp.postgresql.org/pub/source/v9.6.6/postgresql-9.6.6.tar.bz2
 Source0  : https://ftp.postgresql.org/pub/source/v9.6.6/postgresql-9.6.6.tar.bz2
 Source1  : postgresql-install.service
@@ -88,13 +88,16 @@ lib components for the postgresql package.
 %prep
 %setup -q -n postgresql-9.6.6
 %patch1 -p1
+pushd ..
+cp -a postgresql-9.6.6 buildavx2
+popd
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1513084518
+export SOURCE_DATE_EPOCH=1516628276
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -104,11 +107,22 @@ export FFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-m
 export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong "
 %configure --disable-static --enable-tap-tests \
 --with-systemd
-make V=1  %{?_smp_mflags}
+make  %{?_smp_mflags}
 
+pushd ../buildavx2/
+export CFLAGS="$CFLAGS -m64 -march=haswell"
+export CXXFLAGS="$CXXFLAGS -m64 -march=haswell"
+export LDFLAGS="$LDFLAGS -m64 -march=haswell"
+%configure --disable-static --enable-tap-tests \
+--with-systemd   --libdir=/usr/lib64/haswell --bindir=/usr/bin/haswell
+make  %{?_smp_mflags}
+popd
 %install
-export SOURCE_DATE_EPOCH=1513084518
+export SOURCE_DATE_EPOCH=1516628276
 rm -rf %{buildroot}
+pushd ../buildavx2/
+%make_install
+popd
 %make_install
 mkdir -p %{buildroot}/usr/lib/systemd/system
 install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/systemd/system/postgresql-install.service
@@ -118,6 +132,22 @@ install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/postgresql.conf
 
 %files
 %defattr(-,root,root,-)
+/usr/lib64/haswell/pkgconfig/libecpg.pc
+/usr/lib64/haswell/pkgconfig/libecpg_compat.pc
+/usr/lib64/haswell/pkgconfig/libpgtypes.pc
+/usr/lib64/haswell/pkgconfig/libpq.pc
+/usr/lib64/haswell/postgresql/pgxs/config/install-sh
+/usr/lib64/haswell/postgresql/pgxs/config/missing
+/usr/lib64/haswell/postgresql/pgxs/src/Makefile.global
+/usr/lib64/haswell/postgresql/pgxs/src/Makefile.port
+/usr/lib64/haswell/postgresql/pgxs/src/Makefile.shlib
+/usr/lib64/haswell/postgresql/pgxs/src/makefiles/pgxs.mk
+/usr/lib64/haswell/postgresql/pgxs/src/nls-global.mk
+/usr/lib64/haswell/postgresql/pgxs/src/test/perl/PostgresNode.pm
+/usr/lib64/haswell/postgresql/pgxs/src/test/perl/RecursiveCopy.pm
+/usr/lib64/haswell/postgresql/pgxs/src/test/perl/SimpleTee.pm
+/usr/lib64/haswell/postgresql/pgxs/src/test/perl/TestLib.pm
+/usr/lib64/haswell/postgresql/pgxs/src/test/regress/pg_regress
 /usr/lib64/postgresql/pgxs/config/install-sh
 /usr/lib64/postgresql/pgxs/config/missing
 /usr/lib64/postgresql/pgxs/src/Makefile.global
@@ -141,6 +171,38 @@ install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/postgresql.conf
 /usr/bin/droplang
 /usr/bin/dropuser
 /usr/bin/ecpg
+/usr/bin/haswell/clusterdb
+/usr/bin/haswell/createdb
+/usr/bin/haswell/createlang
+/usr/bin/haswell/createuser
+/usr/bin/haswell/dropdb
+/usr/bin/haswell/droplang
+/usr/bin/haswell/dropuser
+/usr/bin/haswell/ecpg
+/usr/bin/haswell/initdb
+/usr/bin/haswell/pg_archivecleanup
+/usr/bin/haswell/pg_basebackup
+/usr/bin/haswell/pg_config
+/usr/bin/haswell/pg_controldata
+/usr/bin/haswell/pg_ctl
+/usr/bin/haswell/pg_dump
+/usr/bin/haswell/pg_dumpall
+/usr/bin/haswell/pg_isready
+/usr/bin/haswell/pg_receivexlog
+/usr/bin/haswell/pg_recvlogical
+/usr/bin/haswell/pg_resetxlog
+/usr/bin/haswell/pg_restore
+/usr/bin/haswell/pg_rewind
+/usr/bin/haswell/pg_test_fsync
+/usr/bin/haswell/pg_test_timing
+/usr/bin/haswell/pg_upgrade
+/usr/bin/haswell/pg_xlogdump
+/usr/bin/haswell/pgbench
+/usr/bin/haswell/postgres
+/usr/bin/haswell/postmaster
+/usr/bin/haswell/psql
+/usr/bin/haswell/reindexdb
+/usr/bin/haswell/vacuumdb
 /usr/bin/initdb
 /usr/bin/pg_archivecleanup
 /usr/bin/pg_basebackup
@@ -1441,6 +1503,10 @@ install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/postgresql.conf
 /usr/include/postgresql/server/utils/varbit.h
 /usr/include/postgresql/server/utils/xml.h
 /usr/include/postgresql/server/windowapi.h
+/usr/lib64/haswell/libecpg.so
+/usr/lib64/haswell/libecpg_compat.so
+/usr/lib64/haswell/libpgtypes.so
+/usr/lib64/haswell/libpq.so
 /usr/lib64/libecpg.so
 /usr/lib64/libecpg_compat.so
 /usr/lib64/libpgtypes.so
@@ -1452,6 +1518,43 @@ install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/postgresql.conf
 
 %files lib
 %defattr(-,root,root,-)
+/usr/lib64/haswell/libecpg.so.6
+/usr/lib64/haswell/libecpg.so.6.8
+/usr/lib64/haswell/libecpg_compat.so.3
+/usr/lib64/haswell/libecpg_compat.so.3.8
+/usr/lib64/haswell/libpgtypes.so.3
+/usr/lib64/haswell/libpgtypes.so.3.7
+/usr/lib64/haswell/libpq.so.5
+/usr/lib64/haswell/libpq.so.5.9
+/usr/lib64/haswell/postgresql/ascii_and_mic.so
+/usr/lib64/haswell/postgresql/cyrillic_and_mic.so
+/usr/lib64/haswell/postgresql/dict_snowball.so
+/usr/lib64/haswell/postgresql/euc2004_sjis2004.so
+/usr/lib64/haswell/postgresql/euc_cn_and_mic.so
+/usr/lib64/haswell/postgresql/euc_jp_and_sjis.so
+/usr/lib64/haswell/postgresql/euc_kr_and_mic.so
+/usr/lib64/haswell/postgresql/euc_tw_and_big5.so
+/usr/lib64/haswell/postgresql/latin2_and_win1250.so
+/usr/lib64/haswell/postgresql/latin_and_mic.so
+/usr/lib64/haswell/postgresql/libpqwalreceiver.so
+/usr/lib64/haswell/postgresql/plpgsql.so
+/usr/lib64/haswell/postgresql/utf8_and_ascii.so
+/usr/lib64/haswell/postgresql/utf8_and_big5.so
+/usr/lib64/haswell/postgresql/utf8_and_cyrillic.so
+/usr/lib64/haswell/postgresql/utf8_and_euc2004.so
+/usr/lib64/haswell/postgresql/utf8_and_euc_cn.so
+/usr/lib64/haswell/postgresql/utf8_and_euc_jp.so
+/usr/lib64/haswell/postgresql/utf8_and_euc_kr.so
+/usr/lib64/haswell/postgresql/utf8_and_euc_tw.so
+/usr/lib64/haswell/postgresql/utf8_and_gb18030.so
+/usr/lib64/haswell/postgresql/utf8_and_gbk.so
+/usr/lib64/haswell/postgresql/utf8_and_iso8859.so
+/usr/lib64/haswell/postgresql/utf8_and_iso8859_1.so
+/usr/lib64/haswell/postgresql/utf8_and_johab.so
+/usr/lib64/haswell/postgresql/utf8_and_sjis.so
+/usr/lib64/haswell/postgresql/utf8_and_sjis2004.so
+/usr/lib64/haswell/postgresql/utf8_and_uhc.so
+/usr/lib64/haswell/postgresql/utf8_and_win.so
 /usr/lib64/libecpg.so.6
 /usr/lib64/libecpg.so.6.8
 /usr/lib64/libecpg_compat.so.3

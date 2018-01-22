@@ -31,7 +31,6 @@ Configure miss: sys/tas.h
 Configure miss: ucred.h usability
 Configure miss: ucred.h presence
 Configure miss: ucred.h
-Configure miss: sys/ucred.h
 Configure miss: union semun
 Configure miss: struct sockaddr_storage.__ss_family
 Configure miss: struct sockaddr_storage.ss_len
@@ -39,7 +38,6 @@ Configure miss: struct sockaddr_storage.__ss_len
 Configure miss: struct cmsgcred
 Configure miss: whether gettimeofday takes only one argument
 Configure miss: wcstombs_l declaration
-Configure miss: getpeerucred
 Configure miss: mbstowcs_l
 Configure miss: pstat
 Configure miss: pthread_is_threaded_np
@@ -48,7 +46,68 @@ Configure miss: whether strlcat is declared
 Configure miss: whether F_FULLFSYNC is declared
 Configure miss: PS_STRINGS
 Configure miss: fls
-Configure miss: getpeereid
+Configure miss: int8
+Configure miss: uint8
+Configure miss: int64
+Configure miss: uint64
+Configure miss: __cpuid
+Configure miss: onsgmls
+Configure miss: nsgmls
+Configure miss: DocBook V4.2
+Configure miss: DocBook stylesheets
+Configure miss: collateindex.pl
+Configure miss: dbtoepub
+Configure miss: osx
+Configure miss: sgml2xml
+Configure miss: sx
+Configure miss: whether NLS is wanted
+Configure miss: whether gcc supports -Wunused-command-line-argument
+Configure miss: whether to build with Tcl
+Configure miss: whether to build Perl modules
+Configure miss: whether to build Python modules
+Configure miss: whether to build with GSSAPI support
+Configure miss: whether to build with PAM support
+Configure miss: whether to build with BSD Authentication support
+Configure miss: whether to build with LDAP support
+Configure miss: whether to build with Bonjour support
+Configure miss: whether to build with OpenSSL support
+Configure miss: whether to build with SELinux support
+Configure miss: if compiler needs certain flags to reject unknown flags
+Configure miss: whether strerror_r returns int
+Configure miss: library containing setproctitle
+Configure miss: library containing shl_load
+Configure miss: atomic.h usability
+Configure miss: atomic.h presence
+Configure miss: atomic.h
+Configure miss: dld.h usability
+Configure miss: dld.h presence
+Configure miss: dld.h
+Configure miss: mbarrier.h usability
+Configure miss: mbarrier.h presence
+Configure miss: mbarrier.h
+Configure miss: sys/pstat.h usability
+Configure miss: sys/pstat.h presence
+Configure miss: sys/tas.h usability
+Configure miss: sys/tas.h presence
+Configure miss: sys/tas.h
+Configure miss: ucred.h usability
+Configure miss: ucred.h presence
+Configure miss: ucred.h
+Configure miss: union semun
+Configure miss: struct sockaddr_storage.__ss_family
+Configure miss: struct sockaddr_storage.ss_len
+Configure miss: struct sockaddr_storage.__ss_len
+Configure miss: struct cmsgcred
+Configure miss: whether gettimeofday takes only one argument
+Configure miss: wcstombs_l declaration
+Configure miss: mbstowcs_l
+Configure miss: pstat
+Configure miss: pthread_is_threaded_np
+Configure miss: wcstombs_l
+Configure miss: whether strlcat is declared
+Configure miss: whether F_FULLFSYNC is declared
+Configure miss: PS_STRINGS
+Configure miss: fls
 Configure miss: int8
 Configure miss: uint8
 Configure miss: int64
