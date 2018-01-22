@@ -4,7 +4,7 @@
 #
 Name     : postgresql
 Version  : 9.6.6
-Release  : 39
+Release  : 40
 URL      : https://ftp.postgresql.org/pub/source/v9.6.6/postgresql-9.6.6.tar.bz2
 Source0  : https://ftp.postgresql.org/pub/source/v9.6.6/postgresql-9.6.6.tar.bz2
 Source1  : postgresql-install.service
@@ -17,6 +17,7 @@ Requires: postgresql-bin
 Requires: postgresql-config
 Requires: postgresql-lib
 Requires: postgresql-data
+BuildRequires : Linux-PAM-dev
 BuildRequires : bison
 BuildRequires : flex
 BuildRequires : libxml2-dev
@@ -26,6 +27,7 @@ BuildRequires : openjade-dev
 BuildRequires : openssl-dev
 BuildRequires : perl(IPC::Run)
 BuildRequires : python-dev
+BuildRequires : python3-dev
 BuildRequires : readline-dev
 BuildRequires : systemd-dev
 BuildRequires : zlib-dev
@@ -97,7 +99,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1516628276
+export SOURCE_DATE_EPOCH=1516629222
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -106,7 +108,10 @@ export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-
 export FFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong "
 export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong "
 %configure --disable-static --enable-tap-tests \
---with-systemd
+--with-systemd \
+--with-openssl \
+--with-pam \
+--with-python
 make  %{?_smp_mflags}
 
 pushd ../buildavx2/
@@ -114,11 +119,14 @@ export CFLAGS="$CFLAGS -m64 -march=haswell"
 export CXXFLAGS="$CXXFLAGS -m64 -march=haswell"
 export LDFLAGS="$LDFLAGS -m64 -march=haswell"
 %configure --disable-static --enable-tap-tests \
---with-systemd   --libdir=/usr/lib64/haswell --bindir=/usr/bin/haswell
+--with-systemd \
+--with-openssl \
+--with-pam \
+--with-python   --libdir=/usr/lib64/haswell --bindir=/usr/bin/haswell
 make  %{?_smp_mflags}
 popd
 %install
-export SOURCE_DATE_EPOCH=1516628276
+export SOURCE_DATE_EPOCH=1516629222
 rm -rf %{buildroot}
 pushd ../buildavx2/
 %make_install
@@ -240,6 +248,12 @@ install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/postgresql.conf
 /usr/share/postgresql/extension/plpgsql--1.0.sql
 /usr/share/postgresql/extension/plpgsql--unpackaged--1.0.sql
 /usr/share/postgresql/extension/plpgsql.control
+/usr/share/postgresql/extension/plpython2u--1.0.sql
+/usr/share/postgresql/extension/plpython2u--unpackaged--1.0.sql
+/usr/share/postgresql/extension/plpython2u.control
+/usr/share/postgresql/extension/plpythonu--1.0.sql
+/usr/share/postgresql/extension/plpythonu--unpackaged--1.0.sql
+/usr/share/postgresql/extension/plpythonu.control
 /usr/share/postgresql/information_schema.sql
 /usr/share/postgresql/pg_hba.conf.sample
 /usr/share/postgresql/pg_ident.conf.sample
@@ -1244,6 +1258,8 @@ install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/postgresql.conf
 /usr/include/postgresql/server/pgtar.h
 /usr/include/postgresql/server/pgtime.h
 /usr/include/postgresql/server/plpgsql.h
+/usr/include/postgresql/server/plpy_util.h
+/usr/include/postgresql/server/plpython.h
 /usr/include/postgresql/server/port.h
 /usr/include/postgresql/server/port/aix.h
 /usr/include/postgresql/server/port/atomics.h
@@ -1538,6 +1554,7 @@ install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/postgresql.conf
 /usr/lib64/haswell/postgresql/latin_and_mic.so
 /usr/lib64/haswell/postgresql/libpqwalreceiver.so
 /usr/lib64/haswell/postgresql/plpgsql.so
+/usr/lib64/haswell/postgresql/plpython2.so
 /usr/lib64/haswell/postgresql/utf8_and_ascii.so
 /usr/lib64/haswell/postgresql/utf8_and_big5.so
 /usr/lib64/haswell/postgresql/utf8_and_cyrillic.so
@@ -1575,6 +1592,7 @@ install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/postgresql.conf
 /usr/lib64/postgresql/latin_and_mic.so
 /usr/lib64/postgresql/libpqwalreceiver.so
 /usr/lib64/postgresql/plpgsql.so
+/usr/lib64/postgresql/plpython2.so
 /usr/lib64/postgresql/utf8_and_ascii.so
 /usr/lib64/postgresql/utf8_and_big5.so
 /usr/lib64/postgresql/utf8_and_cyrillic.so

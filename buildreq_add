@@ -10,3 +10,5 @@ python-dev
 perl(IPC::Run)
 systemd-dev
 ncurses-dev
+python3-dev
+Linux-PAM-dev

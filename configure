@@ -1,2 +1,5 @@
 --enable-tap-tests
 --with-systemd
+--with-openssl
+--with-pam
+--with-python
