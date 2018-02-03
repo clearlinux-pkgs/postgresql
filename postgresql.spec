@@ -4,7 +4,7 @@
 #
 Name     : postgresql
 Version  : 9.6.6
-Release  : 41
+Release  : 42
 URL      : https://ftp.postgresql.org/pub/source/v9.6.6/postgresql-9.6.6.tar.bz2
 Source0  : https://ftp.postgresql.org/pub/source/v9.6.6/postgresql-9.6.6.tar.bz2
 Source1  : postgresql-install.service
@@ -99,7 +99,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1516629222
+export SOURCE_DATE_EPOCH=1517684768
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -126,7 +126,7 @@ export LDFLAGS="$LDFLAGS -m64 -march=haswell"
 make  %{?_smp_mflags}
 popd
 %install
-export SOURCE_DATE_EPOCH=1516629222
+export SOURCE_DATE_EPOCH=1517684768
 rm -rf %{buildroot}
 pushd ../buildavx2/
 %make_install
@@ -248,12 +248,9 @@ install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/postgresql.conf
 /usr/share/postgresql/extension/plpgsql--1.0.sql
 /usr/share/postgresql/extension/plpgsql--unpackaged--1.0.sql
 /usr/share/postgresql/extension/plpgsql.control
-/usr/share/postgresql/extension/plpython2u--1.0.sql
-/usr/share/postgresql/extension/plpython2u--unpackaged--1.0.sql
-/usr/share/postgresql/extension/plpython2u.control
-/usr/share/postgresql/extension/plpythonu--1.0.sql
-/usr/share/postgresql/extension/plpythonu--unpackaged--1.0.sql
-/usr/share/postgresql/extension/plpythonu.control
+/usr/share/postgresql/extension/plpython3u--1.0.sql
+/usr/share/postgresql/extension/plpython3u--unpackaged--1.0.sql
+/usr/share/postgresql/extension/plpython3u.control
 /usr/share/postgresql/information_schema.sql
 /usr/share/postgresql/pg_hba.conf.sample
 /usr/share/postgresql/pg_ident.conf.sample
@@ -1554,7 +1551,7 @@ install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/postgresql.conf
 /usr/lib64/haswell/postgresql/latin_and_mic.so
 /usr/lib64/haswell/postgresql/libpqwalreceiver.so
 /usr/lib64/haswell/postgresql/plpgsql.so
-/usr/lib64/haswell/postgresql/plpython2.so
+/usr/lib64/haswell/postgresql/plpython3.so
 /usr/lib64/haswell/postgresql/utf8_and_ascii.so
 /usr/lib64/haswell/postgresql/utf8_and_big5.so
 /usr/lib64/haswell/postgresql/utf8_and_cyrillic.so
@@ -1592,7 +1589,7 @@ install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/postgresql.conf
 /usr/lib64/postgresql/latin_and_mic.so
 /usr/lib64/postgresql/libpqwalreceiver.so
 /usr/lib64/postgresql/plpgsql.so
-/usr/lib64/postgresql/plpython2.so
+/usr/lib64/postgresql/plpython3.so
 /usr/lib64/postgresql/utf8_and_ascii.so
 /usr/lib64/postgresql/utf8_and_big5.so
 /usr/lib64/postgresql/utf8_and_cyrillic.so
