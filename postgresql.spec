@@ -26,7 +26,7 @@ BuildRequires : ncurses-dev
 BuildRequires : openjade-dev
 BuildRequires : openssl-dev
 BuildRequires : perl(IPC::Run)
-BuildRequires : python-dev
+
 BuildRequires : python3-dev
 BuildRequires : readline-dev
 BuildRequires : systemd-dev
