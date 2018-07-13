@@ -1,0 +1,23 @@
+diff --git a/configure b/configure
+index 8d5b44e..20e1e72 100755
+--- a/configure
++++ b/configure
+@@ -7697,12 +7697,12 @@ $as_echo "${python_libspec} ${python_additional_libs}" >&6; }
+     fi
+   fi
+ 
+-  if test "$python_enable_shared" != 1; then
+-    as_fn_error $? "cannot build PL/Python because libpython is not a shared library
+-You might have to rebuild your Python installation.  Refer to the
+-documentation for details.  Use --without-python to disable building
+-PL/Python." "$LINENO" 5
+-  fi
++#  if test "$python_enable_shared" != 1; then
++#    as_fn_error $? "cannot build PL/Python because libpython is not a shared library
++#You might have to rebuild your Python installation.  Refer to the
++#documentation for details.  Use --without-python to disable building
++#PL/Python." "$LINENO" 5
++#  fi
+ fi
+ 
+ if test "$cross_compiling" = yes && test -z "$with_system_tzdata"; then

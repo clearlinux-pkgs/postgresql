@@ -4,7 +4,7 @@
 #
 Name     : postgresql
 Version  : 9.6.9
-Release  : 47
+Release  : 50
 URL      : https://ftp.postgresql.org/pub/source/v9.6.9/postgresql-9.6.9.tar.bz2
 Source0  : https://ftp.postgresql.org/pub/source/v9.6.9/postgresql-9.6.9.tar.bz2
 Source1  : postgresql-install.service
@@ -34,6 +34,8 @@ BuildRequires : systemd-dev
 BuildRequires : zlib-dev
 Patch1: 0001-Move-socket-to-run-postgresql.patch
 Patch2: cve-2017-12172.nopatch
+Patch3: cve-2018-1058.nopatch
+Patch4: by-pass-python-shared.patch
 
 %description
 PostgreSQL Database Management System
@@ -101,6 +103,7 @@ license components for the postgresql package.
 %prep
 %setup -q -n postgresql-9.6.9
 %patch1 -p1
+%patch4 -p1
 pushd ..
 cp -a postgresql-9.6.9 buildavx2
 popd
@@ -110,7 +113,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1530395653
+export SOURCE_DATE_EPOCH=1531514733
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -134,17 +137,17 @@ export LDFLAGS="$LDFLAGS -m64 -march=haswell"
 --with-systemd \
 --with-openssl \
 --with-pam \
---with-python   --libdir=/usr/lib64/haswell
+--with-python
 make  %{?_smp_mflags}
 popd
 %install
-export SOURCE_DATE_EPOCH=1530395653
+export SOURCE_DATE_EPOCH=1531514733
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/doc/postgresql
 cp COPYRIGHT %{buildroot}/usr/share/doc/postgresql/COPYRIGHT
 cp src/backend/regex/COPYRIGHT %{buildroot}/usr/share/doc/postgresql/src_backend_regex_COPYRIGHT
 pushd ../buildavx2/
-%make_install
+%make_install_avx2
 popd
 %make_install
 mkdir -p %{buildroot}/usr/lib/systemd/system
@@ -155,18 +158,6 @@ install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/postgresql.conf
 
 %files
 %defattr(-,root,root,-)
-/usr/lib64/haswell/postgresql/pgxs/config/install-sh
-/usr/lib64/haswell/postgresql/pgxs/config/missing
-/usr/lib64/haswell/postgresql/pgxs/src/Makefile.global
-/usr/lib64/haswell/postgresql/pgxs/src/Makefile.port
-/usr/lib64/haswell/postgresql/pgxs/src/Makefile.shlib
-/usr/lib64/haswell/postgresql/pgxs/src/makefiles/pgxs.mk
-/usr/lib64/haswell/postgresql/pgxs/src/nls-global.mk
-/usr/lib64/haswell/postgresql/pgxs/src/test/perl/PostgresNode.pm
-/usr/lib64/haswell/postgresql/pgxs/src/test/perl/RecursiveCopy.pm
-/usr/lib64/haswell/postgresql/pgxs/src/test/perl/SimpleTee.pm
-/usr/lib64/haswell/postgresql/pgxs/src/test/perl/TestLib.pm
-/usr/lib64/haswell/postgresql/pgxs/src/test/regress/pg_regress
 /usr/lib64/postgresql/pgxs/config/install-sh
 /usr/lib64/postgresql/pgxs/config/missing
 /usr/lib64/postgresql/pgxs/src/Makefile.global
@@ -190,6 +181,38 @@ install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/postgresql.conf
 /usr/bin/droplang
 /usr/bin/dropuser
 /usr/bin/ecpg
+/usr/bin/haswell/clusterdb
+/usr/bin/haswell/createdb
+/usr/bin/haswell/createlang
+/usr/bin/haswell/createuser
+/usr/bin/haswell/dropdb
+/usr/bin/haswell/droplang
+/usr/bin/haswell/dropuser
+/usr/bin/haswell/ecpg
+/usr/bin/haswell/initdb
+/usr/bin/haswell/pg_archivecleanup
+/usr/bin/haswell/pg_basebackup
+/usr/bin/haswell/pg_config
+/usr/bin/haswell/pg_controldata
+/usr/bin/haswell/pg_ctl
+/usr/bin/haswell/pg_dump
+/usr/bin/haswell/pg_dumpall
+/usr/bin/haswell/pg_isready
+/usr/bin/haswell/pg_receivexlog
+/usr/bin/haswell/pg_recvlogical
+/usr/bin/haswell/pg_resetxlog
+/usr/bin/haswell/pg_restore
+/usr/bin/haswell/pg_rewind
+/usr/bin/haswell/pg_test_fsync
+/usr/bin/haswell/pg_test_timing
+/usr/bin/haswell/pg_upgrade
+/usr/bin/haswell/pg_xlogdump
+/usr/bin/haswell/pgbench
+/usr/bin/haswell/postgres
+/usr/bin/haswell/postmaster
+/usr/bin/haswell/psql
+/usr/bin/haswell/reindexdb
+/usr/bin/haswell/vacuumdb
 /usr/bin/initdb
 /usr/bin/pg_archivecleanup
 /usr/bin/pg_basebackup
@@ -1512,7 +1535,6 @@ install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/postgresql.conf
 /usr/lib64/haswell/libpgtypes.so.3.7
 /usr/lib64/haswell/libpq.so.5
 /usr/lib64/haswell/libpq.so.5.9
-/usr/lib64/haswell/postgresql/plpgsql.so
 /usr/lib64/libecpg.so.6
 /usr/lib64/libecpg.so.6.8
 /usr/lib64/libecpg_compat.so.3
@@ -1533,6 +1555,7 @@ install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/postgresql.conf
 /usr/lib64/postgresql/latin_and_mic.so
 /usr/lib64/postgresql/libpqwalreceiver.so
 /usr/lib64/postgresql/plpgsql.so
+/usr/lib64/postgresql/plpgsql.so.avx2
 /usr/lib64/postgresql/plpython3.so
 /usr/lib64/postgresql/utf8_and_ascii.so
 /usr/lib64/postgresql/utf8_and_big5.so

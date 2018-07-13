@@ -1,2 +1,4 @@
 0001-Move-socket-to-run-postgresql.patch
 cve-2017-12172.nopatch
+cve-2018-1058.nopatch
+by-pass-python-shared.patch
