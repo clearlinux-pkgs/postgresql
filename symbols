@@ -341,10 +341,8 @@ libpq.so.5:pg_encoding_dsplen
 libpq.so.5:pg_encoding_max_length
 libpq.so.5:pg_encoding_mblen
 libpq.so.5:pg_encoding_to_char
-libpq.so.5:pg_fe_getauthname
 libpq.so.5:pg_fe_sendauth
 libpq.so.5:pg_freeaddrinfo_all
-libpq.so.5:pg_g_threadlock
 libpq.so.5:pg_get_encoding_from_locale
 libpq.so.5:pg_getaddrinfo_all
 libpq.so.5:pg_getnameinfo_all
@@ -356,6 +354,7 @@ libpq.so.5:pg_valid_server_encoding_id
 libpq.so.5:pgtls_init
 libpq.so.5:pgtls_init_library
 libpq.so.5:pgtls_open_client
+libpq.so.5:pgtls_read
 libpq.so.5:pgtls_read_pending
 libpq.so.5:pgtls_write
 libpq.so.5:pqBuildErrorMessage3
@@ -388,11 +387,13 @@ libpq.so.5:pqSkipnchar
 libpq.so.5:pqStrerror
 libpq.so.5:pqWait
 libpq.so.5:pqWaitTimed
+libpq.so.5:pq_block_sigpipe
 libpq.so.5:pq_reset_sigpipe
 libpq.so.5:pqsecure_close
 libpq.so.5:pqsecure_initialize
 libpq.so.5:pqsecure_open_client
 libpq.so.5:pqsecure_raw_read
+libpq.so.5:pqsecure_raw_write
 libpq.so.5:pqsecure_read
 libpq.so.5:pqsecure_write
 libpq.so.5:pqsignal

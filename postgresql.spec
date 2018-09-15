@@ -4,7 +4,7 @@
 #
 Name     : postgresql
 Version  : 9.6.9
-Release  : 50
+Release  : 51
 URL      : https://ftp.postgresql.org/pub/source/v9.6.9/postgresql-9.6.9.tar.bz2
 Source0  : https://ftp.postgresql.org/pub/source/v9.6.9/postgresql-9.6.9.tar.bz2
 Source1  : postgresql-install.service
@@ -36,6 +36,7 @@ Patch1: 0001-Move-socket-to-run-postgresql.patch
 Patch2: cve-2017-12172.nopatch
 Patch3: cve-2018-1058.nopatch
 Patch4: by-pass-python-shared.patch
+Patch5: hugepages.patch
 
 %description
 PostgreSQL Database Management System
@@ -104,6 +105,7 @@ license components for the postgresql package.
 %setup -q -n postgresql-9.6.9
 %patch1 -p1
 %patch4 -p1
+%patch5 -p1
 pushd ..
 cp -a postgresql-9.6.9 buildavx2
 popd
@@ -113,7 +115,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1531514733
+export SOURCE_DATE_EPOCH=1536979147
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -141,7 +143,7 @@ export LDFLAGS="$LDFLAGS -m64 -march=haswell"
 make  %{?_smp_mflags}
 popd
 %install
-export SOURCE_DATE_EPOCH=1531514733
+export SOURCE_DATE_EPOCH=1536979147
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/doc/postgresql
 cp COPYRIGHT %{buildroot}/usr/share/doc/postgresql/COPYRIGHT

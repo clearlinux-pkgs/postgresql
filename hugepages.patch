@@ -1,0 +1,22 @@
+--- postgresql-9.6.6/src/backend/utils/misc/guc.c~	2017-11-06 22:08:55.000000000 +0000
++++ postgresql-9.6.6/src/backend/utils/misc/guc.c	2018-09-15 02:21:26.130201888 +0000
+@@ -463,7 +463,7 @@
+  * This really belongs in pg_shmem.c, but is defined here so that it doesn't
+  * need to be duplicated in all the different implementations of pg_shmem.c.
+  */
+-int			huge_pages;
++int			huge_pages = HUGE_PAGES_TRY;
+ 
+ /*
+  * These variables are all dummies that don't do anything, except in some
+--- postgresql-9.6.6/src/backend/port/sysv_shmem.c~	2017-11-06 22:08:55.000000000 +0000
++++ postgresql-9.6.6/src/backend/port/sysv_shmem.c	2018-09-15 02:29:26.226195204 +0000
+@@ -495,6 +495,8 @@
+ 		ptr = mmap(NULL, allocsize, PROT_READ | PROT_WRITE,
+ 				   PG_MMAP_FLAGS, -1, 0);
+ 		mmap_errno = errno;
++		/* suggest to use huge pages */
++		madvise(ptr, allocsize, MADV_HUGEPAGE);
+ 	}
+ 
+ 	if (ptr == MAP_FAILED)
