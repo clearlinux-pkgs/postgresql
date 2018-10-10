@@ -111,6 +111,7 @@ libpgtypes.so.3:EncodeDateOnly
 libpgtypes.so.3:EncodeDateTime
 libpgtypes.so.3:GetCurrentDateTime
 libpgtypes.so.3:GetEpochTime
+libpgtypes.so.3:PGTYPESchar_free
 libpgtypes.so.3:PGTYPESdate_dayofweek
 libpgtypes.so.3:PGTYPESdate_defmt_asc
 libpgtypes.so.3:PGTYPESdate_fmt_asc
