@@ -11,11 +11,7 @@ Configure miss: if compiler needs certain flags to reject unknown flags
 Configure miss: whether strerror_r returns int
 Configure miss: library containing setproctitle
 Configure miss: library containing shl_load
-Configure miss: OPENSSL_init_ssl
-Configure miss: BIO_get_data
-Configure miss: BIO_meth_new
-Configure miss: ASN1_STRING_get0_data
-Configure miss: RAND_OpenSSL
+Configure miss: CRYPTO_lock
 Configure miss: atomic.h usability
 Configure miss: atomic.h presence
 Configure miss: atomic.h
@@ -75,11 +71,7 @@ Configure miss: if compiler needs certain flags to reject unknown flags
 Configure miss: whether strerror_r returns int
 Configure miss: library containing setproctitle
 Configure miss: library containing shl_load
-Configure miss: OPENSSL_init_ssl
-Configure miss: BIO_get_data
-Configure miss: BIO_meth_new
-Configure miss: ASN1_STRING_get0_data
-Configure miss: RAND_OpenSSL
+Configure miss: CRYPTO_lock
 Configure miss: atomic.h usability
 Configure miss: atomic.h presence
 Configure miss: atomic.h
