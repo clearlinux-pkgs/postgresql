@@ -4,7 +4,7 @@
 #
 Name     : postgresql
 Version  : 9.6.12
-Release  : 55
+Release  : 56
 URL      : https://ftp.postgresql.org/pub/source/v9.6.12/postgresql-9.6.12.tar.bz2
 Source0  : https://ftp.postgresql.org/pub/source/v9.6.12/postgresql-9.6.12.tar.bz2
 Source1  : postgresql-install.service
