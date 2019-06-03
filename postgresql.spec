@@ -4,13 +4,13 @@
 #
 Name     : postgresql
 Version  : 9.6.13
-Release  : 59
+Release  : 60
 URL      : https://ftp.postgresql.org/pub/source/v9.6.13/postgresql-9.6.13.tar.bz2
 Source0  : https://ftp.postgresql.org/pub/source/v9.6.13/postgresql-9.6.13.tar.bz2
 Source1  : postgresql-install.service
 Source2  : postgresql.service
 Source3  : postgresql.tmpfiles
-Summary  : Sophisticated object-relational DBMS
+Summary  : No detailed summary available
 Group    : Development/Tools
 License  : PostgreSQL TCL
 Requires: postgresql-bin = %{version}-%{release}
@@ -28,7 +28,6 @@ BuildRequires : ncurses-dev
 BuildRequires : openjade-dev
 BuildRequires : openssl-dev
 BuildRequires : perl(IPC::Run)
-BuildRequires : python-dev
 BuildRequires : python3-dev
 BuildRequires : readline-dev
 BuildRequires : systemd-dev
@@ -40,20 +39,10 @@ Patch4: by-pass-python-shared.patch
 Patch5: hugepages.patch
 
 %description
-Darwin
-======
-The file system.c included herein is taken directly from Apple's Darwin
-open-source CVS archives, and is redistributed under the BSD copyright
-notice it bears.  (According to Apple's CVS logs, their version is
-identical to the FreeBSD original.)  It provides our own implementation of
-the system(3) function, which ought by all rights to be identical to the
-one provided in libc on Darwin machines.  Nonetheless, this version works,
-whereas the one that actually ships with Mac OS X 10.1 doesn't.  The
-shipped version appears to disconnect the calling process from any shared
-memory segments it is attached to.  (The symptom seen in PostgreSQL is
-that a backend attempting to execute CREATE DATABASE core-dumps.)  I would
-love to know why there is a discrepancy between the published source and
-the actual behavior --- tgl 7-Nov-2001.
+PostgreSQL Database Management System
+=====================================
+This directory contains the source code distribution of the PostgreSQL
+database management system.
 
 %package bin
 Summary: bin components for the postgresql package.
@@ -90,7 +79,6 @@ Requires: postgresql-lib = %{version}-%{release}
 Requires: postgresql-bin = %{version}-%{release}
 Requires: postgresql-data = %{version}-%{release}
 Provides: postgresql-devel = %{version}-%{release}
-Requires: postgresql = %{version}-%{release}
 Requires: postgresql = %{version}-%{release}
 
 %description dev
@@ -137,14 +125,15 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1557492465
+export SOURCE_DATE_EPOCH=1559582781
+export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fcf-protection=full -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong "
-export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fcf-protection=full -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong "
-export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fcf-protection=full -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong "
-export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fcf-protection=full -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong "
+export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
+export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
 %configure --disable-static --enable-tap-tests \
 --with-systemd \
 --with-openssl \
@@ -165,7 +154,7 @@ export LDFLAGS="$LDFLAGS -m64 -march=haswell"
 make  %{?_smp_mflags}
 popd
 %install
-export SOURCE_DATE_EPOCH=1557492465
+export SOURCE_DATE_EPOCH=1559582781
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/postgresql
 cp COPYRIGHT %{buildroot}/usr/share/package-licenses/postgresql/COPYRIGHT

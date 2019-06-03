@@ -3,6 +3,7 @@
 Description=PostgreSQL database server
 Documentation=man:postgres(1)
 After=postgresql-install.service
+Requires=postgresql-install.service
 
 [Service]
 Type=notify
