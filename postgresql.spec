@@ -4,7 +4,7 @@
 #
 Name     : postgresql
 Version  : 9.6.15
-Release  : 62
+Release  : 63
 URL      : https://ftp.postgresql.org/pub/source/v9.6.15/postgresql-9.6.15.tar.bz2
 Source0  : https://ftp.postgresql.org/pub/source/v9.6.15/postgresql-9.6.15.tar.bz2
 Source1  : postgresql-install.service
@@ -125,7 +125,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1565482073
+export SOURCE_DATE_EPOCH=1571159585
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -154,11 +154,11 @@ export LDFLAGS="$LDFLAGS -m64 -march=haswell"
 make  %{?_smp_mflags}
 popd
 %install
-export SOURCE_DATE_EPOCH=1565482073
+export SOURCE_DATE_EPOCH=1571159585
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/postgresql
-cp COPYRIGHT %{buildroot}/usr/share/package-licenses/postgresql/COPYRIGHT
-cp src/backend/regex/COPYRIGHT %{buildroot}/usr/share/package-licenses/postgresql/src_backend_regex_COPYRIGHT
+cp %{_builddir}/postgresql-9.6.15/COPYRIGHT %{buildroot}/usr/share/package-licenses/postgresql/7380d98d972fbc1618ff66f2d8b8f2371ed5023e
+cp %{_builddir}/postgresql-9.6.15/src/backend/regex/COPYRIGHT %{buildroot}/usr/share/package-licenses/postgresql/9ca05e9c70d9823e191d9b3876ecdeb57c53c725
 pushd ../buildavx2/
 %make_install_avx2
 popd
@@ -910,8 +910,25 @@ install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/postgresql.conf
 
 %files dev
 %defattr(-,root,root,-)
-/usr/include/*.h
+/usr/include/ecpg_config.h
+/usr/include/ecpg_informix.h
+/usr/include/ecpgerrno.h
+/usr/include/ecpglib.h
+/usr/include/ecpgtype.h
+/usr/include/libpq-events.h
+/usr/include/libpq-fe.h
 /usr/include/libpq/libpq-fs.h
+/usr/include/pg_config.h
+/usr/include/pg_config_ext.h
+/usr/include/pg_config_manual.h
+/usr/include/pg_config_os.h
+/usr/include/pgtypes.h
+/usr/include/pgtypes_date.h
+/usr/include/pgtypes_error.h
+/usr/include/pgtypes_interval.h
+/usr/include/pgtypes_numeric.h
+/usr/include/pgtypes_timestamp.h
+/usr/include/postgres_ext.h
 /usr/include/postgresql/informix/esql/datetime.h
 /usr/include/postgresql/informix/esql/decimal.h
 /usr/include/postgresql/informix/esql/sqltypes.h
@@ -1531,6 +1548,11 @@ install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/postgresql.conf
 /usr/include/postgresql/server/utils/varbit.h
 /usr/include/postgresql/server/utils/xml.h
 /usr/include/postgresql/server/windowapi.h
+/usr/include/sql3types.h
+/usr/include/sqlca.h
+/usr/include/sqlda-compat.h
+/usr/include/sqlda-native.h
+/usr/include/sqlda.h
 /usr/lib64/haswell/libpgtypes.so
 /usr/lib64/haswell/libpq.so
 /usr/lib64/libecpg.so
@@ -1590,8 +1612,8 @@ install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/postgresql.conf
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/postgresql/COPYRIGHT
-/usr/share/package-licenses/postgresql/src_backend_regex_COPYRIGHT
+/usr/share/package-licenses/postgresql/7380d98d972fbc1618ff66f2d8b8f2371ed5023e
+/usr/share/package-licenses/postgresql/9ca05e9c70d9823e191d9b3876ecdeb57c53c725
 
 %files services
 %defattr(-,root,root,-)
