@@ -4,7 +4,7 @@
 #
 Name     : postgresql
 Version  : 9.6.15
-Release  : 64
+Release  : 65
 URL      : https://ftp.postgresql.org/pub/source/v9.6.15/postgresql-9.6.15.tar.bz2
 Source0  : https://ftp.postgresql.org/pub/source/v9.6.15/postgresql-9.6.15.tar.bz2
 Source1  : postgresql-install.service
