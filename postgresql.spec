@@ -4,13 +4,13 @@
 #
 Name     : postgresql
 Version  : 9.6.16
-Release  : 67
+Release  : 68
 URL      : https://ftp.postgresql.org/pub/source/v9.6.16/postgresql-9.6.16.tar.bz2
 Source0  : https://ftp.postgresql.org/pub/source/v9.6.16/postgresql-9.6.16.tar.bz2
 Source1  : postgresql-install.service
 Source2  : postgresql.service
 Source3  : postgresql.tmpfiles
-Summary  : No detailed summary available
+Summary  : Sophisticated object-relational DBMS
 Group    : Development/Tools
 License  : PostgreSQL TCL
 Requires: postgresql-bin = %{version}-%{release}
@@ -39,10 +39,20 @@ Patch4: by-pass-python-shared.patch
 Patch5: hugepages.patch
 
 %description
-PostgreSQL Database Management System
-=====================================
-This directory contains the source code distribution of the PostgreSQL
-database management system.
+Darwin
+======
+The file system.c included herein is taken directly from Apple's Darwin
+open-source CVS archives, and is redistributed under the BSD copyright
+notice it bears.  (According to Apple's CVS logs, their version is
+identical to the FreeBSD original.)  It provides our own implementation of
+the system(3) function, which ought by all rights to be identical to the
+one provided in libc on Darwin machines.  Nonetheless, this version works,
+whereas the one that actually ships with Mac OS X 10.1 doesn't.  The
+shipped version appears to disconnect the calling process from any shared
+memory segments it is attached to.  (The symptom seen in PostgreSQL is
+that a backend attempting to execute CREATE DATABASE core-dumps.)  I would
+love to know why there is a discrepancy between the published source and
+the actual behavior --- tgl 7-Nov-2001.
 
 %package bin
 Summary: bin components for the postgresql package.
@@ -79,6 +89,7 @@ Requires: postgresql-lib = %{version}-%{release}
 Requires: postgresql-bin = %{version}-%{release}
 Requires: postgresql-data = %{version}-%{release}
 Provides: postgresql-devel = %{version}-%{release}
+Requires: postgresql = %{version}-%{release}
 Requires: postgresql = %{version}-%{release}
 
 %description dev
@@ -126,20 +137,21 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1575263899
+export SOURCE_DATE_EPOCH=1578940427
+# -Werror is for werrorists
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
-export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
-export FFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
-export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -mzero-caller-saved-regs=used "
+export CFLAGS="$CFLAGS -O3 -falign-functions=32 -fcf-protection=full -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong "
+export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -fcf-protection=full -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong "
+export FFLAGS="$CFLAGS -O3 -falign-functions=32 -fcf-protection=full -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong "
+export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -fcf-protection=full -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong "
 %configure --disable-static --enable-tap-tests \
 --with-systemd \
 --with-openssl \
 --with-pam \
---with-python
+--without-python
 make  %{?_smp_mflags}
 
 unset PKG_CONFIG_PATH
@@ -151,11 +163,11 @@ export LDFLAGS="$LDFLAGS -m64 -march=haswell"
 --with-systemd \
 --with-openssl \
 --with-pam \
---with-python
+--without-python
 make  %{?_smp_mflags}
 popd
 %install
-export SOURCE_DATE_EPOCH=1575263899
+export SOURCE_DATE_EPOCH=1578940427
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/postgresql
 cp %{_builddir}/postgresql-9.6.16/COPYRIGHT %{buildroot}/usr/share/package-licenses/postgresql/7380d98d972fbc1618ff66f2d8b8f2371ed5023e
@@ -262,9 +274,6 @@ install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/postgresql.conf
 /usr/share/postgresql/extension/plpgsql--1.0.sql
 /usr/share/postgresql/extension/plpgsql--unpackaged--1.0.sql
 /usr/share/postgresql/extension/plpgsql.control
-/usr/share/postgresql/extension/plpython3u--1.0.sql
-/usr/share/postgresql/extension/plpython3u--unpackaged--1.0.sql
-/usr/share/postgresql/extension/plpython3u.control
 /usr/share/postgresql/information_schema.sql
 /usr/share/postgresql/pg_hba.conf.sample
 /usr/share/postgresql/pg_ident.conf.sample
@@ -1288,8 +1297,6 @@ install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/postgresql.conf
 /usr/include/postgresql/server/pgtar.h
 /usr/include/postgresql/server/pgtime.h
 /usr/include/postgresql/server/plpgsql.h
-/usr/include/postgresql/server/plpy_util.h
-/usr/include/postgresql/server/plpython.h
 /usr/include/postgresql/server/port.h
 /usr/include/postgresql/server/port/aix.h
 /usr/include/postgresql/server/port/atomics.h
@@ -1592,7 +1599,6 @@ install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/postgresql.conf
 /usr/lib64/postgresql/libpqwalreceiver.so
 /usr/lib64/postgresql/plpgsql.so
 /usr/lib64/postgresql/plpgsql.so.avx2
-/usr/lib64/postgresql/plpython3.so
 /usr/lib64/postgresql/utf8_and_ascii.so
 /usr/lib64/postgresql/utf8_and_big5.so
 /usr/lib64/postgresql/utf8_and_cyrillic.so

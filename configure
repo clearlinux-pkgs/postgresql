@@ -2,4 +2,4 @@
 --with-systemd
 --with-openssl
 --with-pam
---with-python
+--without-python

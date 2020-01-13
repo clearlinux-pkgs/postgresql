@@ -2,6 +2,7 @@ Configure miss: whether NLS is wanted
 Configure miss: whether gcc supports -Wunused-command-line-argument
 Configure miss: whether to build with Tcl
 Configure miss: whether to build Perl modules
+Configure miss: whether to build Python modules
 Configure miss: whether to build with GSSAPI support
 Configure miss: whether to build with BSD Authentication support
 Configure miss: whether to build with LDAP support
@@ -62,6 +63,7 @@ Configure miss: whether NLS is wanted
 Configure miss: whether gcc supports -Wunused-command-line-argument
 Configure miss: whether to build with Tcl
 Configure miss: whether to build Perl modules
+Configure miss: whether to build Python modules
 Configure miss: whether to build with GSSAPI support
 Configure miss: whether to build with BSD Authentication support
 Configure miss: whether to build with LDAP support
