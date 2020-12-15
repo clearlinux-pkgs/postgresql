@@ -4,7 +4,7 @@
 #
 Name     : postgresql
 Version  : 9.6.20
-Release  : 74
+Release  : 75
 URL      : https://ftp.postgresql.org/pub/source/v9.6.20/postgresql-9.6.20.tar.bz2
 Source0  : https://ftp.postgresql.org/pub/source/v9.6.20/postgresql-9.6.20.tar.bz2
 Source1  : postgresql-install.service
