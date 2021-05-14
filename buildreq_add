@@ -1,13 +1,15 @@
 # This file contains additional build requirements that did not get
 # picked up automatically. One name per line, no whitespace.
+Linux-PAM-dev
 bison
 flex
-zlib-dev
-openjade-dev
+libxml2-dev
 libxslt-bin
+ncurses-dev
+openjade-dev
 openssl-dev
 perl(IPC::Run)
-systemd-dev
-ncurses-dev
 python3-dev
-Linux-PAM-dev
+readline-dev
+systemd-dev
+zlib-dev
