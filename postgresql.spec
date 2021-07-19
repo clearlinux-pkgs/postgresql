@@ -4,7 +4,7 @@
 #
 Name     : postgresql
 Version  : 9.6.22
-Release  : 78
+Release  : 79
 URL      : https://ftp.postgresql.org/pub/source/v9.6.22/postgresql-9.6.22.tar.gz
 Source0  : https://ftp.postgresql.org/pub/source/v9.6.22/postgresql-9.6.22.tar.gz
 Source1  : postgresql-install.service
@@ -124,15 +124,15 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1620953190
+export SOURCE_DATE_EPOCH=1626716723
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -fzero-call-used-regs=used "
-export FCFLAGS="$FFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -fzero-call-used-regs=used "
-export FFLAGS="$FFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -fzero-call-used-regs=used "
-export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math -fstack-protector-strong -fzero-call-used-regs=used "
+export CFLAGS="$CFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=4 -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mprefer-vector-width=256 "
+export FCFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=4 -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mprefer-vector-width=256 "
+export FFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=4 -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mprefer-vector-width=256 "
+export CXXFLAGS="$CXXFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=4 -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mprefer-vector-width=256 "
 %configure --disable-static --enable-tap-tests \
 --with-systemd \
 --with-openssl \
@@ -155,7 +155,7 @@ export LDFLAGS="$LDFLAGS -m64 -march=haswell"
 make  %{?_smp_mflags}
 popd
 %install
-export SOURCE_DATE_EPOCH=1620953190
+export SOURCE_DATE_EPOCH=1626716723
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/postgresql
 cp %{_builddir}/postgresql-9.6.22/COPYRIGHT %{buildroot}/usr/share/package-licenses/postgresql/b65c2d5331bc4d97b4b88e5a0cbf98c0452ea8d7
@@ -1550,6 +1550,8 @@ install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/postgresql.conf
 /usr/include/sqlda-compat.h
 /usr/include/sqlda-native.h
 /usr/include/sqlda.h
+/usr/lib64/haswell/libecpg.so
+/usr/lib64/haswell/libecpg_compat.so
 /usr/lib64/haswell/libpgtypes.so
 /usr/lib64/haswell/libpq.so
 /usr/lib64/libecpg.so
@@ -1563,6 +1565,10 @@ install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/postgresql.conf
 
 %files lib
 %defattr(-,root,root,-)
+/usr/lib64/haswell/libecpg.so.6
+/usr/lib64/haswell/libecpg.so.6.8
+/usr/lib64/haswell/libecpg_compat.so.3
+/usr/lib64/haswell/libecpg_compat.so.3.8
 /usr/lib64/haswell/libpgtypes.so.3
 /usr/lib64/haswell/libpgtypes.so.3.7
 /usr/lib64/haswell/libpq.so.5
