@@ -4,7 +4,7 @@
 #
 Name     : postgresql
 Version  : 9.6.23
-Release  : 82
+Release  : 83
 URL      : https://ftp.postgresql.org/pub/source/v9.6.23/postgresql-9.6.23.tar.gz
 Source0  : https://ftp.postgresql.org/pub/source/v9.6.23/postgresql-9.6.23.tar.gz
 Source1  : postgresql-install.service
@@ -16,6 +16,7 @@ License  : PostgreSQL TCL
 Requires: postgresql-bin = %{version}-%{release}
 Requires: postgresql-config = %{version}-%{release}
 Requires: postgresql-data = %{version}-%{release}
+Requires: postgresql-filemap = %{version}-%{release}
 Requires: postgresql-lib = %{version}-%{release}
 Requires: postgresql-license = %{version}-%{release}
 Requires: postgresql-services = %{version}-%{release}
@@ -49,6 +50,7 @@ Requires: postgresql-data = %{version}-%{release}
 Requires: postgresql-config = %{version}-%{release}
 Requires: postgresql-license = %{version}-%{release}
 Requires: postgresql-services = %{version}-%{release}
+Requires: postgresql-filemap = %{version}-%{release}
 
 %description bin
 bin components for the postgresql package.
@@ -83,11 +85,20 @@ Requires: postgresql = %{version}-%{release}
 dev components for the postgresql package.
 
 
+%package filemap
+Summary: filemap components for the postgresql package.
+Group: Default
+
+%description filemap
+filemap components for the postgresql package.
+
+
 %package lib
 Summary: lib components for the postgresql package.
 Group: Libraries
 Requires: postgresql-data = %{version}-%{release}
 Requires: postgresql-license = %{version}-%{release}
+Requires: postgresql-filemap = %{version}-%{release}
 
 %description lib
 lib components for the postgresql package.
@@ -124,15 +135,15 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1633366857
+export SOURCE_DATE_EPOCH=1633822233
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mprefer-vector-width=256 "
-export FCFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mprefer-vector-width=256 "
-export FFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mprefer-vector-width=256 "
-export CXXFLAGS="$CXXFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mprefer-vector-width=256 "
+export CFLAGS="$CFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mno-vzeroupper -mprefer-vector-width=256 "
+export FCFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mno-vzeroupper -mprefer-vector-width=256 "
+export FFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mno-vzeroupper -mprefer-vector-width=256 "
+export CXXFLAGS="$CXXFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mno-vzeroupper -mprefer-vector-width=256 "
 %configure --disable-static --enable-tap-tests \
 --with-systemd \
 --with-openssl \
@@ -155,13 +166,14 @@ export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3"
 make  %{?_smp_mflags}
 popd
 %install
-export SOURCE_DATE_EPOCH=1633366857
+export SOURCE_DATE_EPOCH=1633822233
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/postgresql
 cp %{_builddir}/postgresql-9.6.23/COPYRIGHT %{buildroot}/usr/share/package-licenses/postgresql/b65c2d5331bc4d97b4b88e5a0cbf98c0452ea8d7
 cp %{_builddir}/postgresql-9.6.23/src/backend/regex/COPYRIGHT %{buildroot}/usr/share/package-licenses/postgresql/9ca05e9c70d9823e191d9b3876ecdeb57c53c725
 pushd ../buildavx2/
-%make_install_avx2
+%make_install_v3
+/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot}/usr/share/clear/optimized-elf/ %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 popd
 %make_install
 mkdir -p %{buildroot}/usr/lib/systemd/system
@@ -195,38 +207,6 @@ install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/postgresql.conf
 /usr/bin/droplang
 /usr/bin/dropuser
 /usr/bin/ecpg
-/usr/bin/haswell/clusterdb
-/usr/bin/haswell/createdb
-/usr/bin/haswell/createlang
-/usr/bin/haswell/createuser
-/usr/bin/haswell/dropdb
-/usr/bin/haswell/droplang
-/usr/bin/haswell/dropuser
-/usr/bin/haswell/ecpg
-/usr/bin/haswell/initdb
-/usr/bin/haswell/pg_archivecleanup
-/usr/bin/haswell/pg_basebackup
-/usr/bin/haswell/pg_config
-/usr/bin/haswell/pg_controldata
-/usr/bin/haswell/pg_ctl
-/usr/bin/haswell/pg_dump
-/usr/bin/haswell/pg_dumpall
-/usr/bin/haswell/pg_isready
-/usr/bin/haswell/pg_receivexlog
-/usr/bin/haswell/pg_recvlogical
-/usr/bin/haswell/pg_resetxlog
-/usr/bin/haswell/pg_restore
-/usr/bin/haswell/pg_rewind
-/usr/bin/haswell/pg_test_fsync
-/usr/bin/haswell/pg_test_timing
-/usr/bin/haswell/pg_upgrade
-/usr/bin/haswell/pg_xlogdump
-/usr/bin/haswell/pgbench
-/usr/bin/haswell/postgres
-/usr/bin/haswell/postmaster
-/usr/bin/haswell/psql
-/usr/bin/haswell/reindexdb
-/usr/bin/haswell/vacuumdb
 /usr/bin/initdb
 /usr/bin/pg_archivecleanup
 /usr/bin/pg_basebackup
@@ -251,6 +231,7 @@ install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/postgresql.conf
 /usr/bin/psql
 /usr/bin/reindexdb
 /usr/bin/vacuumdb
+/usr/share/clear/optimized-elf/bin*
 
 %files config
 %defattr(-,root,root,-)
@@ -1550,10 +1531,6 @@ install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/postgresql.conf
 /usr/include/sqlda-compat.h
 /usr/include/sqlda-native.h
 /usr/include/sqlda.h
-/usr/lib64/haswell/libecpg.so
-/usr/lib64/haswell/libecpg_compat.so
-/usr/lib64/haswell/libpgtypes.so
-/usr/lib64/haswell/libpq.so
 /usr/lib64/libecpg.so
 /usr/lib64/libecpg_compat.so
 /usr/lib64/libpgtypes.so
@@ -1563,16 +1540,12 @@ install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/postgresql.conf
 /usr/lib64/pkgconfig/libpgtypes.pc
 /usr/lib64/pkgconfig/libpq.pc
 
+%files filemap
+%defattr(-,root,root,-)
+/usr/share/clear/filemap/filemap-postgresql
+
 %files lib
 %defattr(-,root,root,-)
-/usr/lib64/haswell/libecpg.so.6
-/usr/lib64/haswell/libecpg.so.6.8
-/usr/lib64/haswell/libecpg_compat.so.3
-/usr/lib64/haswell/libecpg_compat.so.3.8
-/usr/lib64/haswell/libpgtypes.so.3
-/usr/lib64/haswell/libpgtypes.so.3.7
-/usr/lib64/haswell/libpq.so.5
-/usr/lib64/haswell/libpq.so.5.9
 /usr/lib64/libecpg.so.6
 /usr/lib64/libecpg.so.6.8
 /usr/lib64/libecpg_compat.so.3
@@ -1593,7 +1566,6 @@ install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/postgresql.conf
 /usr/lib64/postgresql/latin_and_mic.so
 /usr/lib64/postgresql/libpqwalreceiver.so
 /usr/lib64/postgresql/plpgsql.so
-/usr/lib64/postgresql/plpgsql.so.avx2
 /usr/lib64/postgresql/utf8_and_ascii.so
 /usr/lib64/postgresql/utf8_and_big5.so
 /usr/lib64/postgresql/utf8_and_cyrillic.so
@@ -1611,6 +1583,7 @@ install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/postgresql.conf
 /usr/lib64/postgresql/utf8_and_sjis2004.so
 /usr/lib64/postgresql/utf8_and_uhc.so
 /usr/lib64/postgresql/utf8_and_win.so
+/usr/share/clear/optimized-elf/lib*
 
 %files license
 %defattr(0644,root,root,0755)
