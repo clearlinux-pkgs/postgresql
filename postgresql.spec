@@ -4,7 +4,7 @@
 #
 Name     : postgresql
 Version  : 9.6.23
-Release  : 83
+Release  : 84
 URL      : https://ftp.postgresql.org/pub/source/v9.6.23/postgresql-9.6.23.tar.gz
 Source0  : https://ftp.postgresql.org/pub/source/v9.6.23/postgresql-9.6.23.tar.gz
 Source1  : postgresql-install.service
