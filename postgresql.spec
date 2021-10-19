@@ -4,7 +4,7 @@
 #
 Name     : postgresql
 Version  : 9.6.23
-Release  : 84
+Release  : 85
 URL      : https://ftp.postgresql.org/pub/source/v9.6.23/postgresql-9.6.23.tar.gz
 Source0  : https://ftp.postgresql.org/pub/source/v9.6.23/postgresql-9.6.23.tar.gz
 Source1  : postgresql-install.service
@@ -135,7 +135,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1633822233
+export SOURCE_DATE_EPOCH=1634663162
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -153,9 +153,9 @@ make  %{?_smp_mflags}
 
 unset PKG_CONFIG_PATH
 pushd ../buildavx2/
-export CFLAGS="$CFLAGS -m64 -march=x86-64-v3"
-export CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3"
-export FFLAGS="$FFLAGS -m64 -march=x86-64-v3"
+export CFLAGS="$CFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
+export CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
+export FFLAGS="$FFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
 export FCFLAGS="$FCFLAGS -m64 -march=x86-64-v3"
 export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3"
 %configure --disable-static --enable-tap-tests \
@@ -166,14 +166,13 @@ export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3"
 make  %{?_smp_mflags}
 popd
 %install
-export SOURCE_DATE_EPOCH=1633822233
+export SOURCE_DATE_EPOCH=1634663162
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/postgresql
 cp %{_builddir}/postgresql-9.6.23/COPYRIGHT %{buildroot}/usr/share/package-licenses/postgresql/b65c2d5331bc4d97b4b88e5a0cbf98c0452ea8d7
 cp %{_builddir}/postgresql-9.6.23/src/backend/regex/COPYRIGHT %{buildroot}/usr/share/package-licenses/postgresql/9ca05e9c70d9823e191d9b3876ecdeb57c53c725
 pushd ../buildavx2/
 %make_install_v3
-/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot}/usr/share/clear/optimized-elf/ %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 popd
 %make_install
 mkdir -p %{buildroot}/usr/lib/systemd/system
@@ -181,6 +180,7 @@ install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/systemd/system/postgresql-instal
 install -m 0644 %{SOURCE2} %{buildroot}/usr/lib/systemd/system/postgresql.service
 mkdir -p %{buildroot}/usr/lib/tmpfiles.d
 install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/postgresql.conf
+/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot}/usr/share/clear/optimized-elf/ %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 
 %files
 %defattr(-,root,root,-)
