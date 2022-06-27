@@ -4,7 +4,7 @@
 #
 Name     : postgresql
 Version  : 9.6.24
-Release  : 88
+Release  : 89
 URL      : https://ftp.postgresql.org/pub/source/v9.6.24/postgresql-9.6.24.tar.gz
 Source0  : https://ftp.postgresql.org/pub/source/v9.6.24/postgresql-9.6.24.tar.gz
 Source1  : postgresql-install.service
@@ -135,15 +135,15 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1642638225
+export SOURCE_DATE_EPOCH=1656373022
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mno-vzeroupper -mprefer-vector-width=256 "
-export FCFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mno-vzeroupper -mprefer-vector-width=256 "
-export FFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mno-vzeroupper -mprefer-vector-width=256 "
-export CXXFLAGS="$CXXFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mno-vzeroupper -mprefer-vector-width=256 "
+export CFLAGS="$CFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mprefer-vector-width=256 "
+export FCFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mprefer-vector-width=256 "
+export FFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mprefer-vector-width=256 "
+export CXXFLAGS="$CXXFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mprefer-vector-width=256 "
 %configure --disable-static --enable-tap-tests \
 --with-systemd \
 --with-openssl \
@@ -166,7 +166,7 @@ export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3"
 make  %{?_smp_mflags}
 popd
 %install
-export SOURCE_DATE_EPOCH=1642638225
+export SOURCE_DATE_EPOCH=1656373022
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/postgresql
 cp %{_builddir}/postgresql-9.6.24/COPYRIGHT %{buildroot}/usr/share/package-licenses/postgresql/b65c2d5331bc4d97b4b88e5a0cbf98c0452ea8d7
@@ -180,7 +180,7 @@ install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/systemd/system/postgresql-instal
 install -m 0644 %{SOURCE2} %{buildroot}/usr/lib/systemd/system/postgresql.service
 mkdir -p %{buildroot}/usr/lib/tmpfiles.d
 install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/postgresql.conf
-/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot}/usr/share/clear/optimized-elf/ %{buildroot}/usr/share/clear/filemap/filemap-%{name}
+/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot} %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 
 %files
 %defattr(-,root,root,-)
@@ -1532,6 +1532,10 @@ install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/postgresql.conf
 /usr/include/sqlda-compat.h
 /usr/include/sqlda-native.h
 /usr/include/sqlda.h
+/usr/lib64/glibc-hwcaps/x86-64-v3/libecpg.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libecpg_compat.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libpgtypes.so
+/usr/lib64/glibc-hwcaps/x86-64-v3/libpq.so
 /usr/lib64/libecpg.so
 /usr/lib64/libecpg_compat.so
 /usr/lib64/libpgtypes.so
@@ -1547,6 +1551,14 @@ install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/postgresql.conf
 
 %files lib
 %defattr(-,root,root,-)
+/usr/lib64/glibc-hwcaps/x86-64-v3/libecpg.so.6
+/usr/lib64/glibc-hwcaps/x86-64-v3/libecpg.so.6.8
+/usr/lib64/glibc-hwcaps/x86-64-v3/libecpg_compat.so.3
+/usr/lib64/glibc-hwcaps/x86-64-v3/libecpg_compat.so.3.8
+/usr/lib64/glibc-hwcaps/x86-64-v3/libpgtypes.so.3
+/usr/lib64/glibc-hwcaps/x86-64-v3/libpgtypes.so.3.7
+/usr/lib64/glibc-hwcaps/x86-64-v3/libpq.so.5
+/usr/lib64/glibc-hwcaps/x86-64-v3/libpq.so.5.9
 /usr/lib64/libecpg.so.6
 /usr/lib64/libecpg.so.6.8
 /usr/lib64/libecpg_compat.so.3
@@ -1584,7 +1596,6 @@ install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/postgresql.conf
 /usr/lib64/postgresql/utf8_and_sjis2004.so
 /usr/lib64/postgresql/utf8_and_uhc.so
 /usr/lib64/postgresql/utf8_and_win.so
-/usr/share/clear/optimized-elf/lib*
 
 %files license
 %defattr(0644,root,root,0755)
