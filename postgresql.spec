@@ -4,7 +4,7 @@
 #
 Name     : postgresql
 Version  : 9.6.24
-Release  : 89
+Release  : 90
 URL      : https://ftp.postgresql.org/pub/source/v9.6.24/postgresql-9.6.24.tar.gz
 Source0  : https://ftp.postgresql.org/pub/source/v9.6.24/postgresql-9.6.24.tar.gz
 Source1  : postgresql-install.service
@@ -1596,6 +1596,7 @@ install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/postgresql.conf
 /usr/lib64/postgresql/utf8_and_sjis2004.so
 /usr/lib64/postgresql/utf8_and_uhc.so
 /usr/lib64/postgresql/utf8_and_win.so
+/usr/share/clear/optimized-elf/other*
 
 %files license
 %defattr(0644,root,root,0755)
