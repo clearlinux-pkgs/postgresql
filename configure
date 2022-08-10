@@ -2,4 +2,6 @@
 --with-systemd
 --with-openssl
 --with-pam
---without-python
+--with-python
+--with-uuid=e2fs
+--with-lz4
