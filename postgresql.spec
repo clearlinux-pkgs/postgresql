@@ -4,7 +4,7 @@
 #
 Name     : postgresql
 Version  : 14.4
-Release  : 92
+Release  : 93
 URL      : https://ftp.postgresql.org/pub/source/v14.4/postgresql-14.4.tar.gz
 Source0  : https://ftp.postgresql.org/pub/source/v14.4/postgresql-14.4.tar.gz
 Source1  : postgresql-install.service
@@ -40,6 +40,7 @@ BuildRequires : readline-dev
 BuildRequires : systemd-dev
 BuildRequires : util-linux-dev
 BuildRequires : zlib-dev
+Patch1: 0001-Move-socket-to-run-postgresql.patch
 
 %description
 PostgreSQL Database Management System
@@ -135,6 +136,7 @@ services components for the postgresql package.
 %prep
 %setup -q -n postgresql-14.4
 cd %{_builddir}/postgresql-14.4
+%patch1 -p1
 pushd ..
 cp -a postgresql-14.4 buildavx2
 popd
@@ -144,7 +146,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1660154982
+export SOURCE_DATE_EPOCH=1660250731
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -179,7 +181,7 @@ export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3"
 make  %{?_smp_mflags}
 popd
 %install
-export SOURCE_DATE_EPOCH=1660154982
+export SOURCE_DATE_EPOCH=1660250731
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/postgresql
 cp %{_builddir}/postgresql-%{version}/COPYRIGHT %{buildroot}/usr/share/package-licenses/postgresql/db5a4f50b09e55794c5812fec9718988aa4486e8
