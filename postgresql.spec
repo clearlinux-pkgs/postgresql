@@ -4,7 +4,7 @@
 #
 Name     : postgresql
 Version  : 14.5
-Release  : 97
+Release  : 98
 URL      : https://ftp.postgresql.org/pub/source/v14.5/postgresql-14.5.tar.gz
 Source0  : https://ftp.postgresql.org/pub/source/v14.5/postgresql-14.5.tar.gz
 Source1  : postgresql-install.service
@@ -133,6 +133,15 @@ Group: Systemd services
 services components for the postgresql package.
 
 
+%package staticdev
+Summary: staticdev components for the postgresql package.
+Group: Default
+Requires: postgresql-dev = %{version}-%{release}
+
+%description staticdev
+staticdev components for the postgresql package.
+
+
 %prep
 %setup -q -n postgresql-14.5
 cd %{_builddir}/postgresql-14.5
@@ -146,7 +155,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1660600924
+export SOURCE_DATE_EPOCH=1662582337
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -181,7 +190,7 @@ export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3"
 make  %{?_smp_mflags}
 popd
 %install
-export SOURCE_DATE_EPOCH=1660600924
+export SOURCE_DATE_EPOCH=1662582337
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/postgresql
 cp %{_builddir}/postgresql-%{version}/COPYRIGHT %{buildroot}/usr/share/package-licenses/postgresql/db5a4f50b09e55794c5812fec9718988aa4486e8
@@ -2114,3 +2123,15 @@ make -C contrib DESTDIR=%buildroot install
 %defattr(-,root,root,-)
 /usr/lib/systemd/system/postgresql-install.service
 /usr/lib/systemd/system/postgresql.service
+
+%files staticdev
+%defattr(-,root,root,-)
+/usr/lib64/glibc-hwcaps/x86-64-v3/libecpg.a
+/usr/lib64/glibc-hwcaps/x86-64-v3/libecpg_compat.a
+/usr/lib64/glibc-hwcaps/x86-64-v3/libpgcommon.a
+/usr/lib64/glibc-hwcaps/x86-64-v3/libpgcommon_shlib.a
+/usr/lib64/glibc-hwcaps/x86-64-v3/libpgfeutils.a
+/usr/lib64/glibc-hwcaps/x86-64-v3/libpgport.a
+/usr/lib64/glibc-hwcaps/x86-64-v3/libpgport_shlib.a
+/usr/lib64/glibc-hwcaps/x86-64-v3/libpgtypes.a
+/usr/lib64/glibc-hwcaps/x86-64-v3/libpq.a
