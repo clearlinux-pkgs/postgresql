@@ -8,5 +8,4 @@ libpython3.10.so.1.0
 libreadline.so.8
 libssl.so.1.1
 libsystemd.so.0
-libuuid.so.1
 libz.so.1

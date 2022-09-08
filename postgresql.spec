@@ -4,7 +4,7 @@
 #
 Name     : postgresql
 Version  : 14.5
-Release  : 98
+Release  : 99
 URL      : https://ftp.postgresql.org/pub/source/v14.5/postgresql-14.5.tar.gz
 Source0  : https://ftp.postgresql.org/pub/source/v14.5/postgresql-14.5.tar.gz
 Source1  : postgresql-install.service
@@ -98,6 +98,14 @@ Group: Documentation
 doc components for the postgresql package.
 
 
+%package extras-libinternal
+Summary: extras-libinternal components for the postgresql package.
+Group: Default
+
+%description extras-libinternal
+extras-libinternal components for the postgresql package.
+
+
 %package filemap
 Summary: filemap components for the postgresql package.
 Group: Default
@@ -155,7 +163,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1662582337
+export SOURCE_DATE_EPOCH=1662646960
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -190,11 +198,11 @@ export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3"
 make  %{?_smp_mflags}
 popd
 %install
-export SOURCE_DATE_EPOCH=1662582337
+export SOURCE_DATE_EPOCH=1662646960
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/postgresql
-cp %{_builddir}/postgresql-%{version}/COPYRIGHT %{buildroot}/usr/share/package-licenses/postgresql/db5a4f50b09e55794c5812fec9718988aa4486e8
-cp %{_builddir}/postgresql-%{version}/src/backend/regex/COPYRIGHT %{buildroot}/usr/share/package-licenses/postgresql/9ca05e9c70d9823e191d9b3876ecdeb57c53c725
+cp %{_builddir}/postgresql-%{version}/COPYRIGHT %{buildroot}/usr/share/package-licenses/postgresql/db5a4f50b09e55794c5812fec9718988aa4486e8 || :
+cp %{_builddir}/postgresql-%{version}/src/backend/regex/COPYRIGHT %{buildroot}/usr/share/package-licenses/postgresql/9ca05e9c70d9823e191d9b3876ecdeb57c53c725 || :
 pushd ../buildavx2/
 %make_install_v3
 popd
@@ -2011,28 +2019,16 @@ make -C contrib DESTDIR=%buildroot install
 %defattr(0644,root,root,0755)
 %doc /usr/share/doc/postgresql/*
 
-%files filemap
-%defattr(-,root,root,-)
-/usr/share/clear/filemap/filemap-postgresql
-
-%files lib
+%files extras-libinternal
 %defattr(-,root,root,-)
 /usr/lib64/glibc-hwcaps/x86-64-v3/libecpg.so.6
 /usr/lib64/glibc-hwcaps/x86-64-v3/libecpg.so.6.14
 /usr/lib64/glibc-hwcaps/x86-64-v3/libecpg_compat.so.3
 /usr/lib64/glibc-hwcaps/x86-64-v3/libecpg_compat.so.3.14
-/usr/lib64/glibc-hwcaps/x86-64-v3/libpgtypes.so.3
-/usr/lib64/glibc-hwcaps/x86-64-v3/libpgtypes.so.3.14
-/usr/lib64/glibc-hwcaps/x86-64-v3/libpq.so.5
-/usr/lib64/glibc-hwcaps/x86-64-v3/libpq.so.5.14
 /usr/lib64/libecpg.so.6
 /usr/lib64/libecpg.so.6.14
 /usr/lib64/libecpg_compat.so.3
 /usr/lib64/libecpg_compat.so.3.14
-/usr/lib64/libpgtypes.so.3
-/usr/lib64/libpgtypes.so.3.14
-/usr/lib64/libpq.so.5
-/usr/lib64/libpq.so.5.14
 /usr/lib64/postgresql/_int.so
 /usr/lib64/postgresql/adminpack.so
 /usr/lib64/postgresql/amcheck.so
@@ -2112,6 +2108,21 @@ make -C contrib DESTDIR=%buildroot install
 /usr/lib64/postgresql/utf8_and_uhc.so
 /usr/lib64/postgresql/utf8_and_win.so
 /usr/lib64/postgresql/uuid-ossp.so
+
+%files filemap
+%defattr(-,root,root,-)
+/usr/share/clear/filemap/filemap-postgresql
+
+%files lib
+%defattr(-,root,root,-)
+/usr/lib64/glibc-hwcaps/x86-64-v3/libpgtypes.so.3
+/usr/lib64/glibc-hwcaps/x86-64-v3/libpgtypes.so.3.14
+/usr/lib64/glibc-hwcaps/x86-64-v3/libpq.so.5
+/usr/lib64/glibc-hwcaps/x86-64-v3/libpq.so.5.14
+/usr/lib64/libpgtypes.so.3
+/usr/lib64/libpgtypes.so.3.14
+/usr/lib64/libpq.so.5
+/usr/lib64/libpq.so.5.14
 /usr/share/clear/optimized-elf/other*
 
 %files license
