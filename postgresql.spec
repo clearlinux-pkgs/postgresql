@@ -4,7 +4,7 @@
 #
 Name     : postgresql
 Version  : 15.0
-Release  : 104
+Release  : 105
 URL      : https://ftp.postgresql.org/pub/source/v15.0/postgresql-15.0.tar.gz
 Source0  : https://ftp.postgresql.org/pub/source/v15.0/postgresql-15.0.tar.gz
 Source1  : postgresql-install.service
@@ -165,7 +165,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1665687724
+export SOURCE_DATE_EPOCH=1666737507
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -200,11 +200,11 @@ export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3"
 make  %{?_smp_mflags}
 popd
 %install
-export SOURCE_DATE_EPOCH=1665687724
+export SOURCE_DATE_EPOCH=1666737507
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/postgresql
-cp %{_builddir}/postgresql-%{version}/COPYRIGHT %{buildroot}/usr/share/package-licenses/postgresql/db5a4f50b09e55794c5812fec9718988aa4486e8
-cp %{_builddir}/postgresql-%{version}/src/backend/regex/COPYRIGHT %{buildroot}/usr/share/package-licenses/postgresql/9ca05e9c70d9823e191d9b3876ecdeb57c53c725
+cp %{_builddir}/postgresql-%{version}/COPYRIGHT %{buildroot}/usr/share/package-licenses/postgresql/db5a4f50b09e55794c5812fec9718988aa4486e8 || :
+cp %{_builddir}/postgresql-%{version}/src/backend/regex/COPYRIGHT %{buildroot}/usr/share/package-licenses/postgresql/9ca05e9c70d9823e191d9b3876ecdeb57c53c725 || :
 pushd ../buildavx2/
 %make_install_v3
 popd

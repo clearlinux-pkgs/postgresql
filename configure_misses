@@ -108,6 +108,8 @@ Configure miss: whether g++ supports -fexcess-precision=standard, for CXXFLAGS
 Configure miss: whether g++ supports -fexcess-precision=standard, for CXXFLAGS
 Configure miss: whether gcc supports -Wcompound-token-split-by-macro, for NOT_THE_CFLAGS
 Configure miss: whether gcc supports -Wcompound-token-split-by-macro, for NOT_THE_CFLAGS
+Configure miss: whether gcc supports -Wdeprecated-non-prototype, for NOT_THE_CFLAGS
+Configure miss: whether gcc supports -Wdeprecated-non-prototype, for NOT_THE_CFLAGS
 Configure miss: whether gcc supports -Werror=unguarded-availability-new, for CFLAGS
 Configure miss: whether gcc supports -Werror=unguarded-availability-new, for CFLAGS
 Configure miss: whether gcc supports -Wunused-command-line-argument, for NOT_THE_CFLAGS
@@ -136,3 +138,5 @@ Configure miss: whether to build with Tcl
 Configure miss: whether to build with Tcl
 Configure miss: whether to build with XML support
 Configure miss: whether to build with XML support
+Configure miss: whether to build with ZSTD support
+Configure miss: whether to build with ZSTD support
