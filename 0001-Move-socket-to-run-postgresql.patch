@@ -1,4 +1,4 @@
-From b3394cb081ccb72d72ae6f9c5f25a45610a3771d Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: William Douglas <william.douglas@intel.com>
 Date: Thu, 11 Aug 2022 13:38:11 -0700
 Subject: [PATCH] Move socket to /run/postgresql
@@ -12,10 +12,10 @@ Signed-off-by: Brett T. Warden <brett.t.warden@intel.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/src/include/pg_config_manual.h b/src/include/pg_config_manual.h
-index 614035e..071f36d 100644
+index 8d2e3e3..15a3975 100644
 --- a/src/include/pg_config_manual.h
 +++ b/src/include/pg_config_manual.h
-@@ -207,7 +207,7 @@
+@@ -224,7 +224,7 @@
   * support them yet.
   */
  #ifndef WIN32
@@ -24,6 +24,3 @@ index 614035e..071f36d 100644
  #else
  #define DEFAULT_PGSOCKET_DIR ""
  #endif
--- 
-2.36.1
-
