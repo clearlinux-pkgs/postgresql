@@ -4,7 +4,7 @@
 #
 Name     : postgresql
 Version  : 15.1
-Release  : 107
+Release  : 108
 URL      : https://ftp.postgresql.org/pub/source/v15.1/postgresql-15.1.tar.gz
 Source0  : https://ftp.postgresql.org/pub/source/v15.1/postgresql-15.1.tar.gz
 Source1  : postgresql-install.service
