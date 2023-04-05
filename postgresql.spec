@@ -5,7 +5,7 @@
 #
 Name     : postgresql
 Version  : 15.2
-Release  : 109
+Release  : 110
 URL      : https://ftp.postgresql.org/pub/source/v15.2/postgresql-15.2.tar.gz
 Source0  : https://ftp.postgresql.org/pub/source/v15.2/postgresql-15.2.tar.gz
 Source1  : postgresql-install.service
@@ -148,15 +148,6 @@ Group: Systemd services
 services components for the postgresql package.
 
 
-%package staticdev
-Summary: staticdev components for the postgresql package.
-Group: Default
-Requires: postgresql-dev = %{version}-%{release}
-
-%description staticdev
-staticdev components for the postgresql package.
-
-
 %prep
 %setup -q -n postgresql-15.2
 cd %{_builddir}/postgresql-15.2
@@ -170,7 +161,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1680650805
+export SOURCE_DATE_EPOCH=1680703215
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -205,7 +196,7 @@ export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3"
 make  %{?_smp_mflags}
 popd
 %install
-export SOURCE_DATE_EPOCH=1680650805
+export SOURCE_DATE_EPOCH=1680703215
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/postgresql
 cp %{_builddir}/postgresql-%{version}/src/backend/regex/COPYRIGHT %{buildroot}/usr/share/package-licenses/postgresql/9ca05e9c70d9823e191d9b3876ecdeb57c53c725 || :
@@ -220,6 +211,7 @@ mkdir -p %{buildroot}/usr/lib/tmpfiles.d
 install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/postgresql.conf
 ## install_append content
 make -C contrib DESTDIR=%buildroot install
+rm %{buildroot}*/usr/lib64/*.a
 ## install_append end
 /usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot} %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 
@@ -2151,15 +2143,3 @@ make -C contrib DESTDIR=%buildroot install
 %defattr(-,root,root,-)
 /usr/lib/systemd/system/postgresql-install.service
 /usr/lib/systemd/system/postgresql.service
-
-%files staticdev
-%defattr(-,root,root,-)
-/usr/lib64/glibc-hwcaps/x86-64-v3/libecpg.a
-/usr/lib64/glibc-hwcaps/x86-64-v3/libecpg_compat.a
-/usr/lib64/glibc-hwcaps/x86-64-v3/libpgcommon.a
-/usr/lib64/glibc-hwcaps/x86-64-v3/libpgcommon_shlib.a
-/usr/lib64/glibc-hwcaps/x86-64-v3/libpgfeutils.a
-/usr/lib64/glibc-hwcaps/x86-64-v3/libpgport.a
-/usr/lib64/glibc-hwcaps/x86-64-v3/libpgport_shlib.a
-/usr/lib64/glibc-hwcaps/x86-64-v3/libpgtypes.a
-/usr/lib64/glibc-hwcaps/x86-64-v3/libpq.a

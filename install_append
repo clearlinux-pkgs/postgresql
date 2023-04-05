@@ -1,1 +1,2 @@
 make -C contrib DESTDIR=%buildroot install
+rm %{buildroot}*/usr/lib64/*.a
