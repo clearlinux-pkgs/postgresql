@@ -5,7 +5,7 @@
 #
 Name     : postgresql
 Version  : 15.2
-Release  : 110
+Release  : 111
 URL      : https://ftp.postgresql.org/pub/source/v15.2/postgresql-15.2.tar.gz
 Source0  : https://ftp.postgresql.org/pub/source/v15.2/postgresql-15.2.tar.gz
 Source1  : postgresql-install.service
@@ -17,7 +17,6 @@ License  : TCL
 Requires: postgresql-bin = %{version}-%{release}
 Requires: postgresql-config = %{version}-%{release}
 Requires: postgresql-data = %{version}-%{release}
-Requires: postgresql-filemap = %{version}-%{release}
 Requires: postgresql-lib = %{version}-%{release}
 Requires: postgresql-license = %{version}-%{release}
 Requires: postgresql-services = %{version}-%{release}
@@ -62,7 +61,6 @@ Requires: postgresql-data = %{version}-%{release}
 Requires: postgresql-config = %{version}-%{release}
 Requires: postgresql-license = %{version}-%{release}
 Requires: postgresql-services = %{version}-%{release}
-Requires: postgresql-filemap = %{version}-%{release}
 
 %description bin
 bin components for the postgresql package.
@@ -113,20 +111,11 @@ Group: Default
 extras-libinternal components for the postgresql package.
 
 
-%package filemap
-Summary: filemap components for the postgresql package.
-Group: Default
-
-%description filemap
-filemap components for the postgresql package.
-
-
 %package lib
 Summary: lib components for the postgresql package.
 Group: Libraries
 Requires: postgresql-data = %{version}-%{release}
 Requires: postgresql-license = %{version}-%{release}
-Requires: postgresql-filemap = %{version}-%{release}
 
 %description lib
 lib components for the postgresql package.
@@ -143,6 +132,7 @@ license components for the postgresql package.
 %package services
 Summary: services components for the postgresql package.
 Group: Systemd services
+Requires: systemd
 
 %description services
 services components for the postgresql package.
@@ -161,15 +151,15 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1680703215
+export SOURCE_DATE_EPOCH=1683133440
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -Ofast -falign-functions=32 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -fno-semantic-interposition -g1 -gno-column-info -gno-variable-location-views -gz "
-export FCFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -fno-semantic-interposition -g1 -gno-column-info -gno-variable-location-views -gz "
-export FFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -fno-semantic-interposition -g1 -gno-column-info -gno-variable-location-views -gz "
-export CXXFLAGS="$CXXFLAGS -O3 -Ofast -falign-functions=32 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -fno-semantic-interposition -g1 -gno-column-info -gno-variable-location-views -gz "
+export CFLAGS="$CFLAGS -O3 -Ofast -falign-functions=32 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -fno-semantic-interposition -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+export FCFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -fno-semantic-interposition -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+export FFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -fno-semantic-interposition -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+export CXXFLAGS="$CXXFLAGS -O3 -Ofast -falign-functions=32 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -fno-semantic-interposition -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
 %configure --disable-static --enable-tap-tests \
 --with-systemd \
 --with-openssl \
@@ -196,7 +186,7 @@ export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3"
 make  %{?_smp_mflags}
 popd
 %install
-export SOURCE_DATE_EPOCH=1680703215
+export SOURCE_DATE_EPOCH=1683133440
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/postgresql
 cp %{_builddir}/postgresql-%{version}/src/backend/regex/COPYRIGHT %{buildroot}/usr/share/package-licenses/postgresql/9ca05e9c70d9823e191d9b3876ecdeb57c53c725 || :
@@ -217,6 +207,9 @@ rm %{buildroot}*/usr/lib64/*.a
 
 %files
 %defattr(-,root,root,-)
+/V3/usr/lib64/postgresql/pgxs/src/test/isolation/isolationtester
+/V3/usr/lib64/postgresql/pgxs/src/test/isolation/pg_isolation_regress
+/V3/usr/lib64/postgresql/pgxs/src/test/regress/pg_regress
 /usr/lib64/postgresql/pgxs/config/install-sh
 /usr/lib64/postgresql/pgxs/config/missing
 /usr/lib64/postgresql/pgxs/src/Makefile.global
@@ -235,6 +228,39 @@ rm %{buildroot}*/usr/lib64/*.a
 
 %files bin
 %defattr(-,root,root,-)
+/V3/usr/bin/clusterdb
+/V3/usr/bin/createdb
+/V3/usr/bin/createuser
+/V3/usr/bin/dropdb
+/V3/usr/bin/dropuser
+/V3/usr/bin/ecpg
+/V3/usr/bin/initdb
+/V3/usr/bin/pg_amcheck
+/V3/usr/bin/pg_archivecleanup
+/V3/usr/bin/pg_basebackup
+/V3/usr/bin/pg_checksums
+/V3/usr/bin/pg_config
+/V3/usr/bin/pg_controldata
+/V3/usr/bin/pg_ctl
+/V3/usr/bin/pg_dump
+/V3/usr/bin/pg_dumpall
+/V3/usr/bin/pg_isready
+/V3/usr/bin/pg_receivewal
+/V3/usr/bin/pg_recvlogical
+/V3/usr/bin/pg_resetwal
+/V3/usr/bin/pg_restore
+/V3/usr/bin/pg_rewind
+/V3/usr/bin/pg_test_fsync
+/V3/usr/bin/pg_test_timing
+/V3/usr/bin/pg_upgrade
+/V3/usr/bin/pg_verifybackup
+/V3/usr/bin/pg_waldump
+/V3/usr/bin/pgbench
+/V3/usr/bin/postgres
+/V3/usr/bin/postmaster
+/V3/usr/bin/psql
+/V3/usr/bin/reindexdb
+/V3/usr/bin/vacuumdb
 /usr/bin/clusterdb
 /usr/bin/createdb
 /usr/bin/createuser
@@ -270,7 +296,6 @@ rm %{buildroot}*/usr/lib64/*.a
 /usr/bin/reindexdb
 /usr/bin/vacuumdb
 /usr/bin/vacuumlo
-/usr/share/clear/optimized-elf/bin*
 
 %files config
 %defattr(-,root,root,-)
@@ -1134,6 +1159,10 @@ rm %{buildroot}*/usr/lib64/*.a
 
 %files dev
 %defattr(-,root,root,-)
+/V3/usr/lib64/libecpg.so
+/V3/usr/lib64/libecpg_compat.so
+/V3/usr/lib64/libpgtypes.so
+/V3/usr/lib64/libpq.so
 /usr/include/ecpg_config.h
 /usr/include/ecpg_informix.h
 /usr/include/ecpgerrno.h
@@ -2009,10 +2038,6 @@ rm %{buildroot}*/usr/lib64/*.a
 /usr/include/sqlda-compat.h
 /usr/include/sqlda-native.h
 /usr/include/sqlda.h
-/usr/lib64/glibc-hwcaps/x86-64-v3/libecpg.so
-/usr/lib64/glibc-hwcaps/x86-64-v3/libecpg_compat.so
-/usr/lib64/glibc-hwcaps/x86-64-v3/libpgtypes.so
-/usr/lib64/glibc-hwcaps/x86-64-v3/libpq.so
 /usr/lib64/libecpg.so
 /usr/lib64/libecpg_compat.so
 /usr/lib64/libpgtypes.so
@@ -2024,12 +2049,41 @@ rm %{buildroot}*/usr/lib64/*.a
 
 %files doc
 %defattr(0644,root,root,0755)
-%doc /usr/share/doc/postgresql/*
+/usr/share/doc/postgresql/*
 
 %files extras-libinternal
 %defattr(-,root,root,-)
-/usr/lib64/glibc-hwcaps/x86-64-v3/libecpg.so.6
-/usr/lib64/glibc-hwcaps/x86-64-v3/libecpg_compat.so.3
+/V3/usr/lib64/libecpg.so.6
+/V3/usr/lib64/libecpg_compat.so.3
+/V3/usr/lib64/postgresql/cyrillic_and_mic.so
+/V3/usr/lib64/postgresql/dict_snowball.so
+/V3/usr/lib64/postgresql/euc2004_sjis2004.so
+/V3/usr/lib64/postgresql/euc_cn_and_mic.so
+/V3/usr/lib64/postgresql/euc_jp_and_sjis.so
+/V3/usr/lib64/postgresql/euc_kr_and_mic.so
+/V3/usr/lib64/postgresql/euc_tw_and_big5.so
+/V3/usr/lib64/postgresql/latin2_and_win1250.so
+/V3/usr/lib64/postgresql/latin_and_mic.so
+/V3/usr/lib64/postgresql/libpqwalreceiver.so
+/V3/usr/lib64/postgresql/pgoutput.so
+/V3/usr/lib64/postgresql/plpgsql.so
+/V3/usr/lib64/postgresql/plpython3.so
+/V3/usr/lib64/postgresql/utf8_and_big5.so
+/V3/usr/lib64/postgresql/utf8_and_cyrillic.so
+/V3/usr/lib64/postgresql/utf8_and_euc2004.so
+/V3/usr/lib64/postgresql/utf8_and_euc_cn.so
+/V3/usr/lib64/postgresql/utf8_and_euc_jp.so
+/V3/usr/lib64/postgresql/utf8_and_euc_kr.so
+/V3/usr/lib64/postgresql/utf8_and_euc_tw.so
+/V3/usr/lib64/postgresql/utf8_and_gb18030.so
+/V3/usr/lib64/postgresql/utf8_and_gbk.so
+/V3/usr/lib64/postgresql/utf8_and_iso8859.so
+/V3/usr/lib64/postgresql/utf8_and_iso8859_1.so
+/V3/usr/lib64/postgresql/utf8_and_johab.so
+/V3/usr/lib64/postgresql/utf8_and_sjis.so
+/V3/usr/lib64/postgresql/utf8_and_sjis2004.so
+/V3/usr/lib64/postgresql/utf8_and_uhc.so
+/V3/usr/lib64/postgresql/utf8_and_win.so
 /usr/lib64/libecpg.so.6
 /usr/lib64/libecpg_compat.so.3
 /usr/lib64/postgresql/_int.so
@@ -2112,18 +2166,14 @@ rm %{buildroot}*/usr/lib64/*.a
 /usr/lib64/postgresql/utf8_and_win.so
 /usr/lib64/postgresql/uuid-ossp.so
 
-%files filemap
-%defattr(-,root,root,-)
-/usr/share/clear/filemap/filemap-postgresql
-
 %files lib
 %defattr(-,root,root,-)
-/usr/lib64/glibc-hwcaps/x86-64-v3/libecpg.so.6.15
-/usr/lib64/glibc-hwcaps/x86-64-v3/libecpg_compat.so.3.15
-/usr/lib64/glibc-hwcaps/x86-64-v3/libpgtypes.so.3
-/usr/lib64/glibc-hwcaps/x86-64-v3/libpgtypes.so.3.15
-/usr/lib64/glibc-hwcaps/x86-64-v3/libpq.so.5
-/usr/lib64/glibc-hwcaps/x86-64-v3/libpq.so.5.15
+/V3/usr/lib64/libecpg.so.6.15
+/V3/usr/lib64/libecpg_compat.so.3.15
+/V3/usr/lib64/libpgtypes.so.3
+/V3/usr/lib64/libpgtypes.so.3.15
+/V3/usr/lib64/libpq.so.5
+/V3/usr/lib64/libpq.so.5.15
 /usr/lib64/libecpg.so.6.15
 /usr/lib64/libecpg_compat.so.3.15
 /usr/lib64/libpgtypes.so.3
@@ -2133,7 +2183,6 @@ rm %{buildroot}*/usr/lib64/*.a
 /usr/lib64/postgresql/basebackup_to_shell.so
 /usr/lib64/postgresql/basic_archive.so
 /usr/lib64/postgresql/pg_walinspect.so
-/usr/share/clear/optimized-elf/other*
 
 %files license
 %defattr(0644,root,root,0755)
