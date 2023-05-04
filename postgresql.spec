@@ -5,7 +5,7 @@
 #
 Name     : postgresql
 Version  : 15.2
-Release  : 111
+Release  : 112
 URL      : https://ftp.postgresql.org/pub/source/v15.2/postgresql-15.2.tar.gz
 Source0  : https://ftp.postgresql.org/pub/source/v15.2/postgresql-15.2.tar.gz
 Source1  : postgresql-install.service
@@ -151,7 +151,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1683133440
+export SOURCE_DATE_EPOCH=1683223521
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -186,7 +186,7 @@ export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3"
 make  %{?_smp_mflags}
 popd
 %install
-export SOURCE_DATE_EPOCH=1683133440
+export SOURCE_DATE_EPOCH=1683223521
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/postgresql
 cp %{_builddir}/postgresql-%{version}/src/backend/regex/COPYRIGHT %{buildroot}/usr/share/package-licenses/postgresql/9ca05e9c70d9823e191d9b3876ecdeb57c53c725 || :
