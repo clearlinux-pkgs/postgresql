@@ -5,7 +5,7 @@
 #
 Name     : postgresql
 Version  : 15.2
-Release  : 113
+Release  : 114
 URL      : https://ftp.postgresql.org/pub/source/v15.2/postgresql-15.2.tar.gz
 Source0  : https://ftp.postgresql.org/pub/source/v15.2/postgresql-15.2.tar.gz
 Source1  : postgresql-install.service
@@ -151,7 +151,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1683657505
+export SOURCE_DATE_EPOCH=1685566075
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -186,7 +186,7 @@ export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3"
 make  %{?_smp_mflags}
 popd
 %install
-export SOURCE_DATE_EPOCH=1683657505
+export SOURCE_DATE_EPOCH=1685566075
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/postgresql
 cp %{_builddir}/postgresql-%{version}/src/backend/regex/COPYRIGHT %{buildroot}/usr/share/package-licenses/postgresql/9ca05e9c70d9823e191d9b3876ecdeb57c53c725 || :
@@ -257,7 +257,6 @@ rm %{buildroot}*/usr/lib64/*.a
 /V3/usr/bin/pg_waldump
 /V3/usr/bin/pgbench
 /V3/usr/bin/postgres
-/V3/usr/bin/postmaster
 /V3/usr/bin/psql
 /V3/usr/bin/reindexdb
 /V3/usr/bin/vacuumdb
@@ -1159,10 +1158,6 @@ rm %{buildroot}*/usr/lib64/*.a
 
 %files dev
 %defattr(-,root,root,-)
-/V3/usr/lib64/libecpg.so
-/V3/usr/lib64/libecpg_compat.so
-/V3/usr/lib64/libpgtypes.so
-/V3/usr/lib64/libpq.so
 /usr/include/ecpg_config.h
 /usr/include/ecpg_informix.h
 /usr/include/ecpgerrno.h
@@ -2053,8 +2048,6 @@ rm %{buildroot}*/usr/lib64/*.a
 
 %files extras-libinternal
 %defattr(-,root,root,-)
-/V3/usr/lib64/libecpg.so.6
-/V3/usr/lib64/libecpg_compat.so.3
 /V3/usr/lib64/postgresql/cyrillic_and_mic.so
 /V3/usr/lib64/postgresql/dict_snowball.so
 /V3/usr/lib64/postgresql/euc2004_sjis2004.so
@@ -2170,9 +2163,7 @@ rm %{buildroot}*/usr/lib64/*.a
 %defattr(-,root,root,-)
 /V3/usr/lib64/libecpg.so.6.15
 /V3/usr/lib64/libecpg_compat.so.3.15
-/V3/usr/lib64/libpgtypes.so.3
 /V3/usr/lib64/libpgtypes.so.3.15
-/V3/usr/lib64/libpq.so.5
 /V3/usr/lib64/libpq.so.5.15
 /usr/lib64/libecpg.so.6.15
 /usr/lib64/libecpg_compat.so.3.15

@@ -104,8 +104,6 @@ Configure miss: whether NLS is wanted
 Configure miss: whether NLS is wanted
 Configure miss: whether g++ supports -Werror=unguarded-availability-new, for CXXFLAGS
 Configure miss: whether g++ supports -Werror=unguarded-availability-new, for CXXFLAGS
-Configure miss: whether g++ supports -fexcess-precision=standard, for CXXFLAGS
-Configure miss: whether g++ supports -fexcess-precision=standard, for CXXFLAGS
 Configure miss: whether gcc supports -Wcompound-token-split-by-macro, for NOT_THE_CFLAGS
 Configure miss: whether gcc supports -Wcompound-token-split-by-macro, for NOT_THE_CFLAGS
 Configure miss: whether gcc supports -Wdeprecated-non-prototype, for NOT_THE_CFLAGS
