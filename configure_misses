@@ -116,8 +116,6 @@ Configure miss: whether gettimeofday takes only one argument
 Configure miss: whether gettimeofday takes only one argument
 Configure miss: whether strerror_r returns int
 Configure miss: whether strerror_r returns int
-Configure miss: whether strlcat is declared
-Configure miss: whether strlcat is declared
 Configure miss: whether to build Perl modules
 Configure miss: whether to build Perl modules
 Configure miss: whether to build with BSD Authentication support

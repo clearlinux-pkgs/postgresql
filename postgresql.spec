@@ -4,10 +4,10 @@
 # Using build pattern: configure
 #
 Name     : postgresql
-Version  : 15.2
-Release  : 114
-URL      : https://ftp.postgresql.org/pub/source/v15.2/postgresql-15.2.tar.gz
-Source0  : https://ftp.postgresql.org/pub/source/v15.2/postgresql-15.2.tar.gz
+Version  : 15.4
+Release  : 115
+URL      : https://ftp.postgresql.org/pub/source/v15.4/postgresql-15.4.tar.gz
+Source0  : https://ftp.postgresql.org/pub/source/v15.4/postgresql-15.4.tar.gz
 Source1  : postgresql-install.service
 Source2  : postgresql.service
 Source3  : postgresql.tmpfiles
@@ -139,11 +139,11 @@ services components for the postgresql package.
 
 
 %prep
-%setup -q -n postgresql-15.2
-cd %{_builddir}/postgresql-15.2
-%patch1 -p1
+%setup -q -n postgresql-15.4
+cd %{_builddir}/postgresql-15.4
+%patch -P 1 -p1
 pushd ..
-cp -a postgresql-15.2 buildavx2
+cp -a postgresql-15.4 buildavx2
 popd
 
 %build
@@ -151,7 +151,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1685566075
+export SOURCE_DATE_EPOCH=1691798737
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -186,7 +186,7 @@ export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3"
 make  %{?_smp_mflags}
 popd
 %install
-export SOURCE_DATE_EPOCH=1685566075
+export SOURCE_DATE_EPOCH=1691798737
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/postgresql
 cp %{_builddir}/postgresql-%{version}/src/backend/regex/COPYRIGHT %{buildroot}/usr/share/package-licenses/postgresql/9ca05e9c70d9823e191d9b3876ecdeb57c53c725 || :
